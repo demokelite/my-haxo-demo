@@ -1267,10 +1267,16 @@ inject:
   head:
     # 自定义css
     # - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
+    # 访客小板报样式（文件很小，直接同步加载，避免卡片闪烁）
+    - <link rel="stylesheet" href="/css/visitor-board.css">
 
   bottom:
     # 自定义js
     # - <script src="/js/xxx"></script>
+
+    # ================= 访客小板报 =================
+    # 归属地 / 距离 / IP / 天气。逻辑与可配置项都在 source/js/visitor-board.js 顶部
+    - <script defer src="/js/visitor-board.js"></script>
 
     # ================= 看板娘（Live2D） =================
     # 主题本身不含看板娘，这里注入 l2d-widget。

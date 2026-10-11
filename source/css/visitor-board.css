@@ -1,0 +1,100 @@
+/*!
+ * 访客小板报样式
+ * 由 _config.anzhiyu.yml 的 inject.head 引入
+ * 全部使用主题 CSS 变量，自动跟随浅色/深色模式
+ */
+
+#visitor-board {
+  max-width: 1200px;
+  margin: 0.9rem auto 0;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+#visitor-board .vb-card {
+  background: var(--anzhiyu-card-bg, #fff);
+  border-radius: var(--anzhiyu-border-radius, 12px);
+  box-shadow: var(--anzhiyu-shadow-border, 0 8px 16px -4px rgba(44, 45, 48, 0.05));
+  padding: 0.85rem 1.15rem;
+  color: var(--anzhiyu-fontcolor, #363636);
+  font-size: 0.92rem;
+  line-height: 1.95;
+  overflow: hidden;
+}
+
+#visitor-board .vb-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+  color: var(--anzhiyu-main, #425aef);
+}
+
+#visitor-board .vb-head i {
+  font-size: 1.05rem;
+}
+
+/* 骨架屏：数据回来之前占位，避免高度跳动 */
+#visitor-board .vb-line.is-loading {
+  display: inline-block;
+  min-width: 12rem;
+  height: 1em;
+  vertical-align: middle;
+  border-radius: 4px;
+  background: var(--anzhiyu-secondbg, #f7f7f9);
+  animation: vb-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes vb-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
+#visitor-board .vb-line {
+  color: var(--anzhiyu-fontcolor, #363636);
+}
+
+#visitor-board .vb-line .vb-strong {
+  color: var(--anzhiyu-main, #425aef);
+  font-weight: 600;
+}
+
+#visitor-board .vb-temp {
+  color: var(--anzhiyu-main, #425aef);
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+#visitor-board .vb-sub {
+  font-size: 0.85rem;
+  opacity: 0.72;
+}
+
+#visitor-board .vb-ip {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  word-break: break-all;
+}
+
+#visitor-board .vb-status {
+  color: var(--anzhiyu-main, #425aef);
+}
+
+#visitor-board .vb-muted {
+  opacity: 0.6;
+}
+
+/* 移动端收紧 */
+@media screen and (max-width: 768px) {
+  #visitor-board {
+    padding: 0 0.6rem;
+    margin-top: 0.6rem;
+  }
+  #visitor-board .vb-card {
+    padding: 0.7rem 0.85rem;
+    font-size: 0.86rem;
+    line-height: 1.85;
+  }
+}
