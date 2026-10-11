@@ -151,7 +151,7 @@ favicon: /favicon.ico
 
 # Avatar (头像)
 avatar:
-  img: https://bu.dusays.com/2023/04/27/64496e511b09c.jpg
+  img: /img/mine/avatar.jpg
   effect: false
 
 # Disable all banner image
@@ -189,7 +189,7 @@ error_img:
 error_404:
   enable: true
   subtitle: "请尝试站内搜索寻找文章"
-  background: https://bu.dusays.com/2023/05/08/645907596997d.gif
+  background: /img/mine/404-bg.jpg
 
 post_meta:
   page: # Home Page
@@ -261,10 +261,10 @@ post_copyright:
 reward:
   enable: true
   QR_code:
-    - img: https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png
+    - img: /img/mine/reward-wechat.jpg
       link:
       text: 微信
-    - img: https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png
+    - img: /img/mine/reward-alipay.jpg
       link:
       text: 支付宝
 
@@ -808,7 +808,7 @@ preloader:
   source: 3
   # pace theme (see https://codebyzach.github.io/pace/)
   pace_css_url:
-  avatar: https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg # 自定加载动画义头像
+  avatar: /img/mine/avatar.jpg # 自定加载动画义头像
 
 # aside (侧边栏)
 # --------------------------------------
@@ -1269,6 +1269,8 @@ inject:
     # - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
     # 访客小板报样式（文件很小，直接同步加载，避免卡片闪烁）
     - <link rel="stylesheet" href="/css/visitor-board.css">
+    # 站点级样式修正（赞赏码防变形等）
+    - <link rel="stylesheet" href="/css/site-fixes.css">
 
   bottom:
     # 自定义js

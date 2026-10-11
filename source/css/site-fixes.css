@@ -1,0 +1,17 @@
+/*!
+ * 站点级样式修正
+ * 由 _config.anzhiyu.yml 的 inject.head 引入
+ */
+
+/* ---------- 赞赏码防变形 ----------
+ * 主题把赞赏码图片强制成正方形：
+ *   .post-reward ... .reward-item img      → width:130px; height:130px
+ *   .console-card-group-reward ... img     → width:230px; height:230px
+ * 但二维码素材常是竖长的（本项目是 1242x1470 和 900x1167），
+ * 强行拉成正方形会变形，严重时二维码扫不出来。
+ * object-fit: contain 让图片在框内等比缩放，留白但不变形。 */
+.post-reward .reward-main .reward-all .reward-group .reward-item img,
+.console-card-group-reward .reward-all .reward-item img {
+  object-fit: contain;
+  background: var(--anzhiyu-secondbg, #f7f7f9);
+}
