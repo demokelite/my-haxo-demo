@@ -20,6 +20,11 @@ menu:
 nav:
   enable: true
   travelling: false
+  # 注意：Anzhiyu 的 nav.clock 并不是时钟，而是「和风天气」小组件
+  # （includes/anzhiyu/clock.pug 实际渲染的是 #he-plugin-simple），
+  # 模板里还写死了主题作者的 API key df245676fb434a0691ead1c63341cd94，
+  # 且其 CDN widget.qweather.net 已不可达（实测 curl 返回 000）。
+  # 所以这里保持关闭，真正的时钟改用 inject 自行注入，见文件末尾 inject.bottom。
   clock: false
   menu:
     - title: 网页
@@ -324,13 +329,13 @@ addtoany:
 comments:
   # Up to two comments system, the first will be shown as default
   # Choose: Valine/Waline/Twikoo/Artalk
-  use: # Twikoo/Waline
+  use: Twikoo # Twikoo/Waline
   text: true # Display the comment name next to the button
   # lazyload: The comment system will be load when comment element enters the browser's viewport.
   # If you set it to true, the comment count will be invalid
   lazyload: false
-  count: false # Display comment count in post's top_img
-  card_post_count: false # Display comment count in Home Page
+  count: true # Display comment count in post's top_img
+  card_post_count: true # Display comment count in Home Page
 
 # valine
 # https://valine.js.org
@@ -369,10 +374,12 @@ waline:
 
 # Twikoo
 # https://github.com/imaegoo/twikoo
+# envId 填你的云函数地址（含 https:// 前缀），例如 https://twikoo-xxxx.vercel.app
+# 留空时评论框不会加载，但站点仍可正常构建
 twikoo:
-  envId:
+  envId: # TODO 替换为你的 Twikoo 云函数地址
   region:
-  visitor: false
+  visitor: true # 文章访问量（由 Twikoo 云函数提供）
   option:
 
 # Artalk
@@ -860,11 +867,11 @@ aside:
     sort_order: # Don't modify the setting unless you know how it works
 
 # busuanzi count for PV / UV in site
-# 访问人数
+# 访问人数（不蒜子，第三方服务，由主题自动引入 //busuanzi.ibruce.info/... 脚本）
 busuanzi:
-  site_uv: false
-  site_pv: false
-  page_pv: false
+  site_uv: true
+  site_pv: true
+  page_pv: true
 
 # Time difference between publish date and now (网页运行时间)
 # Formal: Month/Day/Year Time or Year/Month/Day Time
@@ -1172,35 +1179,34 @@ ptool:
   categories: false # 是否显示分类
   mode: # 运营模式与责任，不配置不显示
 
-# 欢迎语配置
+# 欢迎语配置（仅首页显示，出现 3 秒后自动消失）
+# 主题的判断逻辑是 nowTime >= startTime && nowTime <= endTime（两端都含），
+# 所以 list 必须完整覆盖 0-23 点，否则会落回 default 并可能出现小白条
 greetingBox:
-  enable: false #开启后必须配置下面的list对应的时间段，不然会出现小白条
-  default: 晚上好👋
+  enable: true
+  default: 你好呀👋
   list:
-    # - greeting: 晚安😴
-    #   startTime: 0
-    #   endTime: 5
-    # - greeting: 早上好鸭👋, 祝你一天好心情！
-    #   startTime: 6
-    #   endTime: 9
-    # - greeting: 上午好👋, 状态很好，鼓励一下～
-    #   startTime: 10
-    #   endTime: 10
-    # - greeting: 11点多啦, 在坚持一下就吃饭啦～
-    #   startTime: 11
-    #   endTime: 11
-    # - greeting: 午安👋, 宝贝
-    #   startTime: 12
-    #   endTime: 14
-    # - greeting: 🌈充实的一天辛苦啦！
-    #   startTime: 14
-    #   endTime: 18
-    # - greeting: 19点喽, 奖励一顿丰盛的大餐吧🍔。
-    #   startTime: 19
-    #   endTime: 19
-    # - greeting: 晚上好👋, 在属于自己的时间好好放松😌~
-    #   startTime: 20
-    #   endTime: 24
+    - greeting: 夜深了🌙, 早点休息吧～
+      startTime: 0
+      endTime: 4
+    - greeting: 早上好👋, 新的一天开始啦！
+      startTime: 5
+      endTime: 8
+    - greeting: 上午好👋, 状态不错，继续加油～
+      startTime: 9
+      endTime: 11
+    - greeting: 中午好🍚, 记得好好吃午饭哦
+      startTime: 12
+      endTime: 13
+    - greeting: 下午好☕, 来杯咖啡提提神～
+      startTime: 14
+      endTime: 17
+    - greeting: 傍晚好🌆, 今天辛苦啦
+      startTime: 18
+      endTime: 19
+    - greeting: 晚上好👋, 在属于自己的时间好好放松😌
+      startTime: 20
+      endTime: 23
 
 # 文章顶部ai摘要
 post_head_ai_description:
@@ -1265,6 +1271,76 @@ inject:
   bottom:
     # 自定义js
     # - <script src="/js/xxx"></script>
+
+    # ================= 看板娘（Live2D） =================
+    # 主题本身不含看板娘，这里注入 l2d-widget。
+    # 注意：原来的 oh-my-live2d 已改名迁移为 l2d-widget，不要再引旧包。
+    # CDN 用主题同款的 cdn.cbd.int —— jsDelivr 直连在部分网络下不可达。
+    - |
+      <script src="https://cdn.cbd.int/l2d-widget@latest/dist/index.min.js"></script>
+    - |
+      <script>
+      (function () {
+        if (window.__l2dBooted) return;
+        window.__l2dBooted = true;
+        window.addEventListener('load', function () {
+          if (!window.L2D_WIDGET || !window.L2D_WIDGET.createWidget) return;
+          try {
+            window.L2D_WIDGET.createWidget({
+              model: {
+                path: 'https://model.hacxy.cn/cat-black/model.json',
+                tips: {
+                  welcomeMessage: ['欢迎来到本站～'],
+                  messages: ['记得常来看看哦～', '今天也要加油鸭！'],
+                  duration: 4000,
+                  interval: 8000
+                }
+              }
+            });
+          } catch (e) { console.warn('Live2D 初始化失败', e); return; }
+          // l2d-widget 的容器没有 id / class，只能按它写死的 fixed + z-index:9999 认出来；
+          // 额外要求没有 id，避免误伤主题自己的固定定位元素。
+          // 抬高 90px 以避开左下角的音乐播放器 #nav-music。
+          var tries = 0;
+          var timer = setInterval(function () {
+            var el = Array.prototype.find.call(document.body.children, function (n) {
+              return n.style && n.style.position === 'fixed' && n.style.zIndex === '9999' && !n.id;
+            });
+            if (el) { el.style.bottom = '90px'; clearInterval(timer); }
+            else if (++tries > 40) { clearInterval(timer); }
+          }, 250);
+        });
+      })();
+      </script>
+
+    # ================= 导航栏时钟 =================
+    # Anzhiyu 本身没有时钟组件（nav.clock 其实是和风天气），这里自己注入一个。
+    # 主题用 PJAX 局部刷新，导航栏会被整体替换，所以要监听 pjax:complete 重新挂载。
+    - |
+      <script>
+      (function () {
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+        function mountClock() {
+          var host = document.getElementById('nav-group');
+          if (!host || document.getElementById('my-nav-clock')) return;
+          var el = document.createElement('div');
+          el.id = 'my-nav-clock';
+          el.title = '当前时间';
+          el.style.cssText = 'margin-left:14px;font-size:14px;line-height:1;opacity:.92;white-space:nowrap;font-variant-numeric:tabular-nums;';
+          var anchor = document.getElementById('nav-right');
+          anchor ? host.insertBefore(el, anchor) : host.appendChild(el);
+          (function tick() {
+            if (!el.isConnected) return; // 被 PJAX 替换后停掉，避免残留定时器
+            var d = new Date();
+            el.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+            setTimeout(tick, 1000);
+          })();
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountClock);
+        else mountClock();
+        document.addEventListener('pjax:complete', mountClock);
+      })();
+      </script>
 
 # CDN
 # Don't modify the following settings unless you know how they work
