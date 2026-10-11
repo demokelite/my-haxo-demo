@@ -286,3 +286,15 @@
 5. **`source/_data/album.yml` 不能删**：`album_detail.pug` 直接执行 `new Date(item.date).toISOString()`，没有空值保护，缺数据会把页面渲染成 0 字节。
 6. **`hexo-server` 的端口默认是 4000**，不是 Hugo 的 1313。
 7. **`job_kill` 杀不掉 `hexo server` 的 node 子进程**，会一直占着端口。停服务要按端口找 PID 再 `Stop-Process`。
+8. **`_config.anzhiyu.yml` 里的数组不能缩短。**
+   Hexo 会把该文件与 `themes/anzhiyu/_config.yml` 深合并，而 `hexo-util` 的 `deepMerge`
+   **对数组是按下标递归合并**的。例如 `home_top.category` 主题默认有 3 项，
+   你只写 2 项的话，**第 3 项会保留主题默认值**（`生活 → /categories/生活日常/`），
+   指向不存在的分类，首页按钮直接 404。改数组时要么给满、要么把多出来的项也写成有效值。
+9. **Windows 上 `core.autocrlf=true` 会让工作区文件变 CRLF。**
+   现象：git 提交后工作区文件被转成 CRLF，而仓库里存的是 LF；
+   用工具按文本匹配编辑该文件会**匹配失败**。
+   本仓库已设置 `core.autocrlf=false`（仅本仓库）并加了 `.gitattributes`（`* text=auto eol=lf`）统一为 LF。
+10. **主题评论区的「隐私政策」链接是写死的 `/privacy`。**
+    没配评论系统时不渲染，一旦设置 `comments.use` 就会在**每个有评论区的页面**出现，
+    没有该页面就是死链。本项目已建 `source/privacy/index.md`。

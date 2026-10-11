@@ -1,0 +1,21 @@
+# 统一换行符为 LF。
+#
+# 原因：Windows 上 git 默认 core.autocrlf=true，会把工作区文件转成 CRLF，
+# 导致同一份文件「工作区是 CRLF、仓库里是 LF」，出现两个具体问题：
+#   1. 用工具按文本匹配编辑文件时会失败（匹配串是 LF，文件是 CRLF）
+#   2. 部署到 Linux（Vercel）后虽然能跑，但本地与线上内容不一致
+#
+# 这里统一声明 LF，仓库与本仓库的工作区都会保持一致。
+# 注意：本仓库已设置 core.autocrlf=false（仅本仓库，不影响全局配置）。
+* text=auto eol=lf
+
+# 二进制文件不要做换行符转换
+*.jpg  binary
+*.jpeg binary
+*.png  binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.avif binary
+*.woff binary
+*.woff2 binary

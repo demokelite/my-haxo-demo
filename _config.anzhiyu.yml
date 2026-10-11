@@ -1081,8 +1081,13 @@ home_top:
       shadow: var(--anzhiyu-shadow-red)
       class: red
       icon: anzhiyu-icon-fire
-    - name: 生活
-      path: /categories/生活/
+    # ⚠️ 这一项不能删！
+    # Hexo 会把本文件与 themes/anzhiyu/_config.yml 深合并，而 hexo-util 的
+    # deepMerge 对数组是「按下标递归合并」的 —— 数组只能覆盖，不能缩短。
+    # 主题默认在此处有第 3 项（生活 → /categories/生活日常/），
+    # 一旦本文件少于 3 项，主题那一项就会露出来并指向不存在的分类（404）。
+    - name: 全部
+      path: /categories/
       shadow: var(--anzhiyu-shadow-green)
       class: green
       icon: anzhiyu-icon-book
