@@ -248,8 +248,9 @@
 | --- | --- | --- |
 | `source/js/visitor-board.js` | 访客小板报（归属地/距离/IP/天气），挂在**侧边栏** `.sticky_layout` 首位 | 删掉 `inject.bottom` 第一行即可；只想在首页显示就把文件里的 `homeOnly` 改成 `true` |
 | `source/css/visitor-board.css` | 小板报排版微调（外框继承主题 `.card-widget`，深色模式自动适配） | 删掉 `inject.head` 那一行 |
-| `api/weather.js` | Vercel 云函数，代理 uapis.cn 天气 | 删文件即可，前端会自动降级 |
-| `inject.bottom` 看板娘 | Live2D（`l2d-widget`） | 删掉对应两行 |
+| `api/ip.js` | Vercel 云函数，代理 uapis.cn 的归属地查询 | 删文件即可，前端会自动改用 xxapi |
+| `api/weather.js` | Vercel 云函数，代理 uapis.cn 天气 | 删文件即可，前端会自动改用 Open-Meteo |
+| `source/js/live2d-init.js` | 看板娘初始化（模型列表 / 位置 / 尺寸 / 提示气泡） | 删掉 `inject.bottom` 里引入它的那一行 |
 | `inject.bottom` 时钟 | 导航栏时钟（主题没有此功能） | 删掉对应一行 |
 | `source/_data/link.yml` | 友链数据 | 删掉后 `/link/` 页变空但不会报错 |
 | `source/_data/album.yml` | 相册数据 | 删掉后 `/album/` 会渲染成 **0 字节空页** ⚠️ |

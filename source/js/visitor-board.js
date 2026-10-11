@@ -19,13 +19,18 @@
     // 博主所在地坐标 —— 用于计算「距博主约 N 公里」。请改成你自己的位置。
     owner: { name: '承德市', lat: 40.9515, lng: 117.9634 },
 
-    // 天气接口 1：同源代理（Vercel 云函数 api/weather.js 转发到 uapis.cn）。
-    // uapis.cn 禁止浏览器跨域，只能服务端调用，所以必须经代理。
-    // 本地 `hexo server` 没有这个路由，会 404 并自动降级到下面那个。
+    // 天气接口：同源代理（Vercel 云函数 api/weather.js → uapis.cn/misc/weather）。
+    // uapis.cn 禁止浏览器跨域（403 CORS_FORBIDDEN），只能服务端调用，所以必须经代理。
+    // 本地 `hexo server` 没有这个路由，会 404 并自动降级到下面的 Open-Meteo。
     proxyWeather: '/api/weather?city=',
 
-    // 归属地接口：必须允许跨域，实测 https://v2.xxapi.cn/api/ip 返回
-    // Access-Control-Allow-Origin: *，且不带参数就能拿到调用者自己的 IP + 完整地址 + 经纬度。
+    // 归属地接口 1：同源代理（Vercel 云函数 api/ip.js → uapis.cn/network/ipinfo）。
+    // ⚠️ 实测它只解析到市级：{"region":"中国 河北 承德"}，没有区县。
+    proxyIp: '/api/ip',
+
+    // 归属地接口 2：允许跨域的公网接口，用来补 uapis 给不出的区县。
+    // 实测返回 {"data":{"address":"中国河北省承德市隆化县","lat":..,"lng":..}}，
+    // 带 Access-Control-Allow-Origin: *。不想要就设为空字符串。
     geoApi: 'https://v2.xxapi.cn/api/ip',
 
     // WebRTC STUN：用户原本只写了 Google 的，但它在国内基本连不上，所以多列几个。
@@ -167,11 +172,23 @@
 
   /* ====================== 第一步：IP → 归属地 → 城市 ====================== */
 
-  // 第 3 层兜底：把「中国河北省承德市隆化县」这类整串地址切成省 / 市 / 区县
+  // 第 3 层兜底：把整串地址切成省 / 市 / 区县。
+  // 要同时吃两种格式：
+  //   xxapi → '中国河北省承德市隆化县'（无空格，带「省 / 市 / 县」后缀）
+  //   uapis → '中国 河北 承德'        （空格分隔，无后缀，且只到市级）
   function parseAddress(raw) {
-    var addr = str(raw).replace(/^中国/, '').trim();
+    var addr = str(raw).replace(/^中国[省\s]*/, '').trim();
     var out = { province: '', city: '', district: '' };
     var m;
+
+    // 空格分隔的形式（uapis）按位置取
+    if (/\s/.test(addr)) {
+      var parts = addr.split(/\s+/).filter(Boolean);
+      out.province = parts[0] || '';
+      out.city = parts[1] || parts[0] || '';
+      out.district = parts[2] || '';
+      return out;
+    }
 
     if ((m = addr.match(/^(.{2,8}?(?:省|自治区|特别行政区))/))) {
       out.province = m[1];
@@ -225,10 +242,23 @@
     var cached = cacheGet('vb-geo');
     if (cached) return Promise.resolve(cached);
 
-    return firstSuccess([
-      // xxapi：允许跨域，且不带参数就返回本机 IP + 完整地址 + 经纬度
-      function () {
-        return fetchJSON(CONFIG.geoApi, 8000).then(function (j) {
+    // 两个来源并行取，各取所长：
+    //   uapis（经同源代理）→ IP / 经纬度 / 运营商，但实测只到市级
+    //   xxapi（允许跨域）  → 带区县的完整地址
+    var viaUapis = fetchJSON(CONFIG.proxyIp, 8000).then(function (j) {
+      var d = (j && j.data) || j || {};
+      if (!d.ip) throw new Error('bad shape');
+      return {
+        ip: str(d.ip),
+        region: str(d.region || d.address),
+        isp: str(d.llc || d.isp),
+        lat: parseFloat(d.latitude),
+        lng: parseFloat(d.longitude)
+      };
+    }).catch(function () { return null; });
+
+    var viaXxapi = CONFIG.geoApi
+      ? fetchJSON(CONFIG.geoApi, 8000).then(function (j) {
           var d = (j && j.data) || {};
           if (!d.ip && !d.address) throw new Error('bad shape');
           return {
@@ -238,17 +268,27 @@
             lat: parseFloat(d.lat),
             lng: parseFloat(d.lng)
           };
-        });
-      },
-      // 兜底：只拿得到 IP，归属地留空（此时用 WebRTC 的 IP 展示）
-      function () {
+        }).catch(function () { return null; })
+      : Promise.resolve(null);
+
+    return Promise.all([viaUapis, viaXxapi]).then(function (r) {
+      var u = r[0], x = r[1];
+      var geo = u || x;
+
+      // 两个都挂了，至少用 WebRTC 拿个 IP 展示
+      if (!geo) {
         return getIpViaWebRTC().then(function (ip) {
           return ip ? { ip: ip, region: '', isp: '', lat: NaN, lng: NaN } : null;
         });
       }
-    ]).then(function (geo) {
-      if (!geo) return null;
-      // 即使定位接口挂了，也尽量补一个 WebRTC 拿到的 IP
+
+      // 地址文本优先用 xxapi 的：带「省/市/县」后缀，而且能到区县；
+      // uapis 的 '中国 河北 承德' 只到市级，解析出来是没后缀的裸名。
+      if (x && x.region) geo.region = x.region;
+      if (!geo.ip && x && x.ip) geo.ip = x.ip;
+      if (!geo.isp && x && x.isp) geo.isp = x.isp;
+      if (isNaN(geo.lat) && x && !isNaN(x.lat)) { geo.lat = x.lat; geo.lng = x.lng; }
+
       if (geo.ip) { cacheSet('vb-geo', geo); return geo; }
       return getIpViaWebRTC().then(function (ip) {
         geo.ip = ip || '';
@@ -343,6 +383,9 @@
 
   function haversine(lat1, lng1, lat2, lng2) {
     if ([lat1, lng1, lat2, lng2].some(function (v) { return isNaN(v); })) return NaN;
+    // 定位失败时接口常返回 0,0（实测 uapis 对 1.1.1.1 就是 latitude:0 longitude:0），
+    // 那不是真实坐标；不排除的话会算出横跨半个地球的假距离。
+    if ((lat1 === 0 && lng1 === 0) || (lat2 === 0 && lng2 === 0)) return NaN;
     var R = 6371;
     var rad = Math.PI / 180;
     var dLat = (lat2 - lat1) * rad;

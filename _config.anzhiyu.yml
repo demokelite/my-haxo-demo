@@ -832,7 +832,7 @@ aside:
     enable: false
     content: 欢迎来看我的博客鸭~
   card_weixin:
-    enable: true
+    enable: false
     face: https://bu.dusays.com/2023/01/13/63c02edf44033.png
     backFace: https://bu.dusays.com/2023/05/13/645fa415e8694.png
   card_recent_post:
@@ -1279,45 +1279,12 @@ inject:
     - <script defer src="/js/visitor-board.js"></script>
 
     # ================= 看板娘（Live2D） =================
-    # 主题本身不含看板娘，这里注入 l2d-widget。
-    # 注意：原来的 oh-my-live2d 已改名迁移为 l2d-widget，不要再引旧包。
-    # CDN 用主题同款的 cdn.cbd.int —— jsDelivr 直连在部分网络下不可达。
+    # 主题本身不含看板娘，这里注入 l2d-widget（原 oh-my-live2d 已改名迁移到该包）。
+    # CDN 走主题同款的 cdn.cbd.int —— jsDelivr 直连在部分网络下不可达。
+    # 模型列表 / 位置 / 尺寸 / 提示气泡都在 source/js/live2d-init.js 顶部的 CONFIG 里改
     - |
       <script src="https://cdn.cbd.int/l2d-widget@latest/dist/index.min.js"></script>
-    - |
-      <script>
-      (function () {
-        if (window.__l2dBooted) return;
-        window.__l2dBooted = true;
-        window.addEventListener('load', function () {
-          if (!window.L2D_WIDGET || !window.L2D_WIDGET.createWidget) return;
-          try {
-            window.L2D_WIDGET.createWidget({
-              model: {
-                path: 'https://model.hacxy.cn/cat-black/model.json',
-                tips: {
-                  welcomeMessage: ['欢迎来到本站～'],
-                  messages: ['记得常来看看哦～', '今天也要加油鸭！'],
-                  duration: 4000,
-                  interval: 8000
-                }
-              }
-            });
-          } catch (e) { console.warn('Live2D 初始化失败', e); return; }
-          // l2d-widget 的容器没有 id / class，只能按它写死的 fixed + z-index:9999 认出来；
-          // 额外要求没有 id，避免误伤主题自己的固定定位元素。
-          // 抬高 90px 以避开左下角的音乐播放器 #nav-music。
-          var tries = 0;
-          var timer = setInterval(function () {
-            var el = Array.prototype.find.call(document.body.children, function (n) {
-              return n.style && n.style.position === 'fixed' && n.style.zIndex === '9999' && !n.id;
-            });
-            if (el) { el.style.bottom = '90px'; clearInterval(timer); }
-            else if (++tries > 40) { clearInterval(timer); }
-          }, 250);
-        });
-      })();
-      </script>
+    - <script defer src="/js/live2d-init.js"></script>
 
     # ================= 导航栏时钟 =================
     # Anzhiyu 本身没有时钟组件（nav.clock 其实是和风天气），这里自己注入一个。
