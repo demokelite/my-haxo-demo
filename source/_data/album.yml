@@ -1,0 +1,30 @@
+# 相册数据文件
+# 主题的 /album/ 页面（相册集）读取本文件
+# 每个相册需要一个对应的详情页：source/album/<名字>/index.md，front-matter 里写 type: album_detail
+# 详情页的 URL 必须与下面的 path_name 一致
+#
+# 注意：album_list 的每一项都必须有 date 字段。
+# 主题的 album_detail.pug 第 41 行直接执行 new Date(item.date).toISOString()，
+# 没有做空值保护，缺少 date 会抛 RangeError 并把页面渲染成 0 字节。
+
+- class_name: 随手拍
+  description: 一些随手记录的瞬间
+  cover: https://picsum.photos/seed/albumcover/800/500
+  path_name: /album/demo/
+  type: 1 # 1 = 瀑布流水布局
+  top_background: https://picsum.photos/seed/albumcover/1600/600
+  top_link: /about/
+  top_btn_text: 关于我
+  album_list:
+    - content: 第一组照片
+      date: 2026-10-11 20:00:00
+      address: 家里
+      image:
+        - https://picsum.photos/seed/photo1/800/600
+        - https://picsum.photos/seed/photo2/800/600
+        - https://picsum.photos/seed/photo3/800/600
+    - content: 第二组照片
+      date: 2026-10-10 18:30:00
+      image:
+        - https://picsum.photos/seed/photo4/800/600
+        - https://picsum.photos/seed/photo5/800/600

@@ -1,0 +1,21 @@
+# 友情链接数据文件
+# 主题的 /link/ 页面（友人帐）会读取本文件渲染
+# flink_style 可选：anzhiyu（卡片）/ telescopic（缩略图）/ flexcard（大图卡片）
+# 每个 item 支持字段：name / link / avatar / descr / siteshot / color / tag / recommend
+
+- class_name: 友情链接
+  class_desc: 那些人，那些事
+  flink_style: anzhiyu
+  link_list:
+    - name: AnZhiYu
+      link: https://hexo.anheyu.com/
+      avatar: https://bu.dusays.com/2023/04/27/64496e511b09c.jpg
+      descr: 安知鱼主题官方示例站
+    - name: Butterfly
+      link: https://butterfly.js.org/
+      avatar: https://npm.elemecdn.com/hexo-theme-butterfly/butterfly.png
+      descr: 本主题的上游项目
+    - name: Hexo
+      link: https://hexo.io/zh-cn/
+      avatar: https://hexo.io/icon/favicon-196x196.png
+      descr: 本站使用的静态博客框架

@@ -1,41 +1,46 @@
 menu:
-  # 文章:
-  #   隧道: /archives/ || anzhiyu-icon-box-archive
-  #   分类: /categories/ || anzhiyu-icon-shapes
-  #   标签: /tags/ || anzhiyu-icon-tags
+  文章:
+    分类: /categories/ || anzhiyu-icon-shapes
+    标签: /tags/ || anzhiyu-icon-tags
+    归档: /archives/ || anzhiyu-icon-box-archive
 
-  # 友链:
-  #   友人帐: /link/ || anzhiyu-icon-link
-  #   朋友圈: /fcircle/ || anzhiyu-icon-artstation
-  #   留言板: /comments/ || anzhiyu-icon-envelope
+  友链:
+    友人帐: /link/ || anzhiyu-icon-link
+    留言板: /comments/ || anzhiyu-icon-envelope
 
-  # 我的:
-  #   音乐馆: /music/ || anzhiyu-icon-music
-  #   追番页: /bangumis/ || anzhiyu-icon-bilibili
-  #   相册集: /album/ || anzhiyu-icon-images
-  #   小空调: /air-conditioner/ || anzhiyu-icon-fan
+  我的:
+    相册集: /album/ || anzhiyu-icon-images
+    音乐馆: /music/ || anzhiyu-icon-music
 
-  # 关于:
-  #   关于本人: /about/ || anzhiyu-icon-paper-plane
-  #   闲言碎语: /essay/ || anzhiyu-icon-lightbulb
-  #   随便逛逛: javascript:toRandomPost() || anzhiyu-icon-shoe-prints1
+  关于:
+    关于本人: /about/ || anzhiyu-icon-paper-plane
+    随便逛逛: javascript:toRandomPost() || anzhiyu-icon-shoe-prints1
 
 # nav相关配置
 nav:
-  enable: false
+  enable: true
   travelling: false
   clock: false
   menu:
     - title: 网页
       item:
-        - name: 博客
-          link: https://hexo.anheyu.com/
+        - name: 博客首页
+          link: /
           icon: /img/favicon.ico
-    - title: 项目
+        - name: 归档
+          link: /archives/
+          icon: /img/favicon.ico
+        - name: 关于本人
+          link: /about/
+          icon: /img/favicon.ico
+    - title: 工具
       item:
-        - name: 安知鱼图床
-          link: https://image.anheyu.com/
-          icon: https://image.anheyu.com/favicon.ico
+        - name: 友人帐
+          link: /link/
+          icon: /img/favicon.ico
+        - name: 留言板
+          link: /comments/
+          icon: /img/favicon.ico
 
 # mourn （哀悼日，指定日期网站简单变灰，不包括滚动条）
 # 注意： 仅网站首页变灰，其他页面正常显示
@@ -66,8 +71,10 @@ copy:
 # formal:
 #   name: link || icon
 social:
-  # Github: https://github.com/anzhiyu-c || anzhiyu-icon-github
-  # BiliBili: https://space.bilibili.com/372204786 || anzhiyu-icon-bilibili
+  Github: https://github.com/demokelite || anzhiyu-icon-github
+  Mail: mailto:871684184@qq.com || anzhiyu-icon-envelope
+  # BiliBili: https://space.bilibili.com/xxxxxxx || anzhiyu-icon-bilibili
+  # 微博: https://weibo.com/u/xxxxxxx || anzhiyu-icon-weibo
 
 # 作者卡片 状态
 author_status:
@@ -109,7 +116,7 @@ docsearch:
 
 # Local search
 local_search:
-  enable: false
+  enable: true
   preload: true
   CDN:
 
@@ -160,8 +167,13 @@ cover:
   # left/right/both
   position: left
   # When cover is not set, the default cover is displayed (当没有设置cover时，默认的封面显示)
+  # 未设置 cover 的文章会从这里随机取一张
+  # 下面用的是 picsum.photos 占位图，请替换成你自己的图片
   default_cover:
-    # - /img/default_cover.jpg
+    - https://picsum.photos/seed/anzhiyu1/800/500
+    - https://picsum.photos/seed/anzhiyu2/800/500
+    - https://picsum.photos/seed/anzhiyu3/800/500
+    - https://picsum.photos/seed/anzhiyu4/800/500
 
 # Replace Broken Images (替换无法显示的图片)
 error_img:
@@ -199,7 +211,7 @@ mainTone:
 
 # wordcount (字数统计)
 wordcount:
-  enable: false
+  enable: true
   post_wordcount: true
   min2read: true
   total_wordcount: true
@@ -425,7 +437,7 @@ crisp:
 footer:
   owner:
     enable: true
-    since: 2020
+    since: 2026
   custom_text:
   runtime:
     enable: false
@@ -759,7 +771,7 @@ hr_icon:
 
 # the subtitle on homepage (主页subtitle)
 subtitle:
-  enable: false
+  enable: true
   # Typewriter Effect (打字效果)
   effect: true
   # Effect Speed Options (打字效果速度参数)
@@ -806,7 +818,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: # <div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">这有关于<b style="color:#fff">产品、设计、开发</b>相关的问题和看法，还有<b style="color:#fff">文章翻译</b>和<b style="color:#fff">分享</b>。</div><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">相信你可以在这里找到对你有用的<b style="color:#fff">知识</b>和<b style="color:#fff">教程</b>。</div> # 默认为站点描述
+    description: 记录学习路上的折腾与积累。主题、部署、踩坑，都写在这里。 # 默认为站点描述
     name_link: /
 
   card_announcement:
@@ -858,7 +870,7 @@ busuanzi:
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
   enable: true
-  publish_date: 4/1/2021 00:00:00
+  publish_date: 10/11/2026 00:00:00
 
 # Console - Newest Comments
 newest_comments:
@@ -1050,20 +1062,20 @@ home_top:
   timemode: date #date/updated
   title: 生活明朗
   subTitle: 万物可爱。
-  siteText: anheyu.com
+  siteText: haxo-blog
   category:
-    - name: 前端
-      path: /categories/前端开发/
+    - name: 技术
+      path: /categories/技术/
       shadow: var(--anzhiyu-shadow-blue)
       class: blue
       icon: anzhiyu-icon-dove
-    - name: 大学
-      path: /categories/大学生涯/
+    - name: 折腾
+      path: /categories/折腾/
       shadow: var(--anzhiyu-shadow-red)
       class: red
       icon: anzhiyu-icon-fire
     - name: 生活
-      path: /categories/生活日常/
+      path: /categories/生活/
       shadow: var(--anzhiyu-shadow-green)
       class: green
       icon: anzhiyu-icon-book
@@ -1214,7 +1226,7 @@ accesskey:
 
 # 友情链接顶部相关配置
 linkPageTop:
-  enable: false
+  enable: true
   title: 与数百名博主无限进步
   # 添加博主友链的评论自定义格式
   addFriendPlaceholder: "昵称（请勿包含博客等字样）：\n网站地址（要求博客地址，请勿提交个人主页）：\n头像图片url（请提供尽可能清晰的图片，我会上传到我自己的图床）：\n描述：\n站点截图（可选）：\n"
