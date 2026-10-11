@@ -109,14 +109,13 @@ npm run server
 
 ### 评论系统部署
 
-评论使用 Twikoo，需要单独部署后端，步骤概述：
+评论使用 Twikoo，需要单独部署后端。完整步骤（含 MongoDB Atlas 配置、常见问题排查）见
+`docs/deploy-comments.md`，要点如下：
 
-1. 注册 MongoDB Atlas 免费实例，取得数据库连接字符串。
+1. 注册 MongoDB Atlas 免费实例，创建数据库用户，网络白名单填 `0.0.0.0/0`，取得连接字符串（记得替换用户名密码）。
 2. 用 Twikoo 官方模板一键部署到 Vercel：<https://vercel.com/import/project?template=https://github.com/twikoojs/twikoo/tree/main/templates/vercel-min>
-3. 在 Vercel 项目的 Environment Variables 中添加 `MONGODB_URI`。
-4. 在 Settings 的 Deployment Protection 中把 Vercel Authentication 设为 Disabled，否则跨域调用会被拦截。
-5. 重新部署后访问项目域名，看到「Twikoo 云函数运行正常」即为成功。
-6. 把该域名（含 `https://`）填入 `_config.anzhiyu.yml` 的 `twikoo.envId`。
+3. 在 Vercel 项目中添加环境变量 `MONGODB_URI`，把 Deployment Protection 设为 Disabled，然后重新部署。
+4. 把部署后的域名（含 `https://`，结尾不带斜杠）填入 `_config.anzhiyu.yml` 第 380 行的 `twikoo.envId`。
 
 前端由主题固定为 Twikoo 1.6.44，后端使用最新版可正常配合。
 
@@ -167,6 +166,7 @@ npm run server
 
 ## 相关文档
 
+- `docs/deploy-comments.md`：评论区（Twikoo）部署完整步骤与排查方法。
 - `docs/theme-config-checklist.md`：主题配置清单，列出 208 个开关的当前状态和我修改过的项。
 - `docs/image-replacement-and-status.md`：图片替换清单（含格式与尺寸建议）与功能自检。
 
