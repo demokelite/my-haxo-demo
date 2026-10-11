@@ -36,6 +36,9 @@
     ],
     webrtcTimeout: 3000,
 
+    // 是否只在首页显示。false = 所有带侧边栏的页面（首页/归档/分类/标签/文章页）都显示
+    homeOnly: false,
+
     // 结果缓存时长，避免每次 PJAX 跳转都重新发请求
     cacheTTL: 30 * 60 * 1000,
 
@@ -365,19 +368,23 @@
     });
   }
 
+  // 外层用主题的 .card-widget —— #aside-content .card-widget 会提供圆角、阴影、
+  // 背景色和深色模式适配；标题沿用 .item-headline，和标签/归档卡片保持一致。
   function buildCard() {
     var el = document.createElement('div');
     el.id = 'visitor-board';
+    el.className = 'card-widget';
     el.innerHTML =
-      '<div class="vb-card">' +
-      '  <div class="vb-head"><i class="anzhiyufont anzhiyu-icon-jike"></i>小板报</div>' +
-      '  <div class="vb-line vb-welcome"><span class="is-loading"></span></div>' +
-      '  <div class="vb-line vb-province"></div>' +
-      '  <div class="vb-line vb-distance"></div>' +
-      '  <div class="vb-line vb-ip-line"></div>' +
-      '  <div class="vb-line vb-weather"></div>' +
-      '  <div class="vb-line vb-status"></div>' +
-      '</div>';
+      '<div class="item-headline">' +
+      '  <i class="anzhiyufont anzhiyu-icon-jike"></i>' +
+      '  <span>小板报</span>' +
+      '</div>' +
+      '<div class="vb-line vb-welcome"><span class="is-loading"></span></div>' +
+      '<div class="vb-line vb-province"></div>' +
+      '<div class="vb-line vb-distance"></div>' +
+      '<div class="vb-line vb-ip-line"></div>' +
+      '<div class="vb-line vb-weather"></div>' +
+      '<div class="vb-line vb-status"></div>';
     return el;
   }
 
@@ -419,7 +426,7 @@
         weather.humidity !== '' && weather.humidity !== undefined ? '湿度 ' + esc(weather.humidity) + '%' : ''
       ].filter(Boolean).join(' · ');
       if (extra) parts.push('<span class="vb-sub">' + extra + '</span>');
-      q('.vb-weather').innerHTML = parts.join('　');
+      q('.vb-weather').innerHTML = parts.join(' ');
     } else {
       q('.vb-weather').innerHTML = '<span class="vb-muted">☁️ 天气暂不可用</span>';
     }
@@ -438,17 +445,20 @@
   }
 
   function mount() {
-    if (!isHome()) return;
+    if (CONFIG.homeOnly && !isHome()) return;
     if (document.getElementById('visitor-board')) return;
     if (mounting) return;
 
-    // 与主题自带的 bbTimeList 同位置：首页内容区最前面
-    var container = document.getElementById('blog-container');
-    if (!container) return;
+    // 插到侧边栏卡片区 .sticky_layout 的最前面，
+    // 也就是作者卡 / 微信卡之后，标签 / 归档 / 网站资讯之前。
+    // 页面不显示侧栏（单栏模式、移动端折叠）时这里取不到节点，自然就不渲染。
+    var aside = document.getElementById('aside-content');
+    var host = aside && aside.querySelector('.sticky_layout');
+    if (!host) return;
 
     mounting = true;
     var el = buildCard();
-    container.insertBefore(el, container.firstChild);
+    host.insertBefore(el, host.firstChild);
 
     Promise.all([
       getGeo().catch(function () { return null; }),

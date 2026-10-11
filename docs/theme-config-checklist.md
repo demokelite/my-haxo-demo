@@ -246,8 +246,8 @@
 
 | 文件 | 作用 | 怎么关 |
 | --- | --- | --- |
-| `source/js/visitor-board.js` | 访客小板报（归属地/距离/IP/天气） | 删掉 `_config.anzhiyu.yml` 里 `inject.bottom` 的第一行 |
-| `source/css/visitor-board.css` | 小板报样式 | 删掉 `inject.head` 那一行 |
+| `source/js/visitor-board.js` | 访客小板报（归属地/距离/IP/天气），挂在**侧边栏** `.sticky_layout` 首位 | 删掉 `inject.bottom` 第一行即可；只想在首页显示就把文件里的 `homeOnly` 改成 `true` |
+| `source/css/visitor-board.css` | 小板报排版微调（外框继承主题 `.card-widget`，深色模式自动适配） | 删掉 `inject.head` 那一行 |
 | `api/weather.js` | Vercel 云函数，代理 uapis.cn 天气 | 删文件即可，前端会自动降级 |
 | `inject.bottom` 看板娘 | Live2D（`l2d-widget`） | 删掉对应两行 |
 | `inject.bottom` 时钟 | 导航栏时钟（主题没有此功能） | 删掉对应一行 |
