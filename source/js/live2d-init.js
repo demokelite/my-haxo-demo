@@ -32,15 +32,18 @@
       { path: 'https://model.hacxy.cn/cat-white/model.json' }          // 白猫
     ],
 
-    position: 'bottom-left',                        // 'bottom-left' 或 'bottom-right'
-    size: { width: 280, height: 380 },              // 传数字则为正方形
+    position: 'bottom-right',                       // 'bottom-left' 或 'bottom-right'
+    size: { width: 260, height: 340 },              // 传数字则为正方形
     transitionType: 'slide',                        // 'slide' 或 'fade'
     transitionDuration: 1000,
     primaryColor: '',                               // 留空用默认主题色，可写 'rgba(255,130,130,.9)'
 
-    // 容器是 position:fixed; bottom:0，会压在左下角的音乐播放器 #nav-music 上，
-    // 所以整体抬高一点。不想抬高就设为 '0px'。
-    bottomOffset: '90px',
+    // 容器样式是 position:fixed; bottom:0; right:0（bottom-right 时），贴住右下角。
+    // 右下角原本是 #rightside 那排按钮（返回顶部 / 深色模式等，z-index 100），
+    // 会看板娘被盖住，所以改用「把按钮整体上移」的方式避让：
+    // 见 _config.anzhiyu.yml 的 rightside-bottom（已设为 360px，大于本模型高度 340px）。
+    // 想让模型离底部有点距离，把这里改成 '20px' 之类即可。
+    bottomOffset: '0px',
 
     // 提示气泡（对列表里每个模型都生效）
     tips: {

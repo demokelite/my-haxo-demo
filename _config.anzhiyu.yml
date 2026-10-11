@@ -685,7 +685,9 @@ tag_ui: # 留空或 index
 footer_bg: false
 
 # the position of bottom right button/default unit: px (右下角按钮距离底部的距离/默认单位为px)
-rightside-bottom: 100px
+# 看板娘挪到右下角后，为了让这排按钮不被 z-index:9999 的模型盖住，从默认 100px 上移到 360px
+# （模型高 340px，360 > 340 即可完全避开）。想改回原位置就设 100px。
+rightside-bottom: 360px
 
 # Background effects (背景特效)
 # --------------------------------------
