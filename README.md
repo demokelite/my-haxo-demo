@@ -204,6 +204,8 @@ git add -A && git commit -m "post: 文章标题" && git push
 4. **主题的 `nav.clock` 不是时钟**，而是和风天气组件，其中写死了第三方密钥且依赖的 CDN 已不可达。导航栏时钟是自行注入的。
 5. **`source/_data/album.yml` 不能删除**，否则相册页会因为缺少数据被渲染成 0 字节的空文件，且不会有报错。
 6. **行尾统一为 LF**。仓库已设置 `core.autocrlf=false` 并添加 `.gitattributes`，避免 Windows 下工作区被转成 CRLF 导致文本编辑不匹配。
+7. **用后台删文章后，要回头看一眼首页的分类按钮。** `_config.anzhiyu.yml` 里 `home_top.category` 的三项指向的是分类页路径。某个分类下的文章被删光后，那个分类页就不再生成，首页对应的按钮会变成死链。改动方式是编辑该配置里的 `name` 与 `path`（注意三项都不能删，原因见第 1 条）。
+8. **Pages CMS 里不要把配置文件改成 `format: yaml`。** `_config.anzhiyu.yml` 和 `_config.yml` 必须保持 `format: code`，否则 Pages CMS 会解析后重新序列化，把文件里的大量中文注释抹掉。
 
 ## 相关文档
 

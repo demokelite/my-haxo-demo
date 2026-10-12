@@ -1073,26 +1073,29 @@ home_top:
   subTitle: 万物可爱。
   siteText: haxo-blog
   category:
-    - name: 技术
-      path: /categories/技术/
-      shadow: var(--anzhiyu-shadow-blue)
-      class: blue
-      icon: anzhiyu-icon-dove
-    - name: 折腾
-      path: /categories/折腾/
-      shadow: var(--anzhiyu-shadow-red)
-      class: red
-      icon: anzhiyu-icon-fire
-    # ⚠️ 这一项不能删！
+    # ⚠️ 这三项一项都不能删！
     # Hexo 会把本文件与 themes/anzhiyu/_config.yml 深合并，而 hexo-util 的
     # deepMerge 对数组是「按下标递归合并」的 —— 数组只能覆盖，不能缩短。
-    # 主题默认在此处有第 3 项（生活 → /categories/生活日常/），
+    # 主题默认在此处有 3 项（前端 / 大学 / 生活日常），
     # 一旦本文件少于 3 项，主题那一项就会露出来并指向不存在的分类（404）。
-    - name: 全部
-      path: /categories/
+    #
+    # 同理：path 必须指向真实存在的页面。删文章导致某个分类空了的话，
+    # 这里要同步改掉，否则首页按钮就是死链。
+    - name: 折腾
+      path: /categories/折腾/
+      shadow: var(--anzhiyu-shadow-blue)
+      class: blue
+      icon: anzhiyu-icon-fire
+    - name: 标签
+      path: /tags/
+      shadow: var(--anzhiyu-shadow-red)
+      class: red
+      icon: anzhiyu-icon-tags
+    - name: 归档
+      path: /archives/
       shadow: var(--anzhiyu-shadow-green)
       class: green
-      icon: anzhiyu-icon-book
+      icon: anzhiyu-icon-box-archive
   default_descr: 再怎么看我也不知道怎么描述它的啦！
   swiper:
     enable: false
