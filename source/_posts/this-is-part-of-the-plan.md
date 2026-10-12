@@ -7,7 +7,7 @@ tags:
   - 解离
   - 决定论
   - 随笔
-cover: /img/mine/mascaloona-bliss.jpg
+cover: /img/photos/cover-05-mascaloona.jpg
 description: 一道笔试题，一次解离，和一个守着花瓶的邵雍。
 ---
 

@@ -97,7 +97,7 @@
     game_tips: 最近在做
     game_title: 原神
     game_uid:
-    game_bg: /img/mine/mascaloona-bliss.jpg
+    game_bg: /img/photos/cover-05-mascaloona.jpg
   # ⚠️ 追番列表需要 name / href / cover 三项，我没有你的追番数据，留空。
   #    填上任意条就会自动渲染成封面墙。
   comic:
