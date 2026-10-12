@@ -1,0 +1,283 @@
+/*!
+ * 环境音控件样式（左下角）
+ *
+ * 配色优先用主题自己的 CSS 变量，跟着站的深浅色模式走；
+ * 变量不存在时用兜底值，所以这份样式单独拿出来也不会难看。
+ */
+
+#ambient-player {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1001; /* 看板娘是 9999 且在右下角，两边不重叠；这里只要盖住内容区即可 */
+  font-size: 14px;
+  line-height: 1.5;
+  /* 避免移动端点击时闪一下蓝色高亮 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================ 圆形按钮 ============================ */
+
+#ambient-toggle {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--anzhiyu-card-bg, #fff);
+  color: var(--anzhiyu-fontcolor, #333);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+#ambient-toggle:hover {
+  transform: scale(1.08);
+  background: var(--anzhiyu-main, #425aef);
+  color: #fff;
+}
+
+.amb-btn-ico {
+  font-size: 19px;
+  line-height: 1;
+}
+
+/* 播放中：按钮换成主色，并让图标缓慢呼吸，一眼能看出在响 */
+#ambient-player.is-playing #ambient-toggle {
+  background: var(--anzhiyu-main, #425aef);
+  color: #fff;
+}
+
+#ambient-player.is-playing .amb-btn-ico {
+  animation: amb-breath 2.4s ease-in-out infinite;
+}
+
+@keyframes amb-breath {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.62; transform: scale(0.9); }
+}
+
+/* ============================ 面板 ============================ */
+
+#ambient-panel {
+  position: absolute;
+  left: 0;
+  bottom: 56px;               /* 按钮 44px + 12px 间距 */
+  width: 280px;
+  max-height: min(70vh, 460px);
+  overflow-y: auto;
+  overscroll-behavior: contain; /* 面板内滚到头不要带着页面一起滚 */
+  padding: 12px 14px 10px;
+  border-radius: 12px;
+  background: var(--anzhiyu-card-bg, #fff);
+  color: var(--anzhiyu-fontcolor, #333);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.22);
+  border: 1px solid var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.16));
+
+  /* 收起状态 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.97);
+  transform-origin: left bottom;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+#ambient-player.is-open #ambient-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.amb-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.16));
+}
+
+.amb-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.amb-close {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: inherit;
+  opacity: 0.6;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.amb-close:hover {
+  opacity: 1;
+  background: var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.16));
+}
+
+/* ============================ 每一行音色 ============================ */
+
+.amb-row {
+  display: grid;
+  grid-template-columns: 76px 1fr 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.amb-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: none;
+  padding: 2px 0;
+  cursor: pointer;
+  font-size: 13px;
+  color: inherit;
+  opacity: 0.55;
+  text-align: left;
+  transition: opacity 0.2s ease;
+}
+
+.amb-name:hover { opacity: 0.85; }
+
+/* 有音量的音色：正常亮度，图标用主色 */
+.amb-name.is-on {
+  opacity: 1;
+  font-weight: 500;
+}
+
+.amb-name.is-on .amb-ico {
+  color: var(--anzhiyu-main, #425aef);
+}
+
+.amb-ico {
+  width: 14px;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.amb-val {
+  font-size: 11px;
+  text-align: right;
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================ 滑杆 ============================ */
+
+.amb-slider,
+.amb-master-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.24));
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+}
+
+.amb-slider::-webkit-slider-thumb,
+.amb-master-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--anzhiyu-main, #425aef);
+  cursor: pointer;
+  border: 2px solid var(--anzhiyu-card-bg, #fff);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+}
+
+.amb-slider::-moz-range-thumb,
+.amb-master-slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--anzhiyu-main, #425aef);
+  cursor: pointer;
+  border: 2px solid var(--anzhiyu-card-bg, #fff);
+}
+
+/* ============================ 底部 ============================ */
+
+.amb-foot {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.16));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.amb-master {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.amb-reset {
+  border: none;
+  background: var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.16));
+  color: inherit;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.amb-reset:hover { opacity: 1; }
+
+/* ============================ 窄屏 ============================ */
+
+@media screen and (max-width: 768px) {
+  #ambient-player {
+    left: 12px;
+    bottom: 12px;
+  }
+
+  #ambient-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  #ambient-panel {
+    bottom: 50px;
+    /* 别顶出屏幕右边，也别占满整屏 */
+    width: min(280px, calc(100vw - 24px));
+    max-height: 60vh;
+  }
+
+  .amb-row {
+    grid-template-columns: 68px 1fr 30px;
+    gap: 6px;
+  }
+}
+
+/* 尊重系统的"减少动态效果"设置 */
+@media (prefers-reduced-motion: reduce) {
+  #ambient-panel,
+  #ambient-toggle,
+  .amb-btn-ico {
+    transition: none !important;
+    animation: none !important;
+  }
+}

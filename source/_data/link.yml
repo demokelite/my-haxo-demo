@@ -3,31 +3,30 @@
 # flink_style 可选：anzhiyu（卡片）/ telescopic（缩略图）/ flexcard（大图卡片）
 # 每个 item 支持字段：name / link / avatar / descr / siteshot / color / tag / recommend
 #
-# ⚠️ 关于这一节：
-# 作者还没有提供真实友链，所以下面这组是「本站的基石」——
-# 用的是本站真正依赖的两个项目，不是随便找的框架官网。
-# 原来那三条（AnZhiYu / Butterfly / Hexo）里 Butterfly 本站根本没用，已删。
+# ⚠️ 按作者要求，友链已全部置空。
+# 之前那组「本站的基石」（Hexo / 安知鱼）也一并删掉了 —— 那是主题依赖说明，不是友链。
 #
-# 等有真实友链了，在下面新增一组，例如：
+# ⚠️ link_list 必须写成 []，不能只留注释。
+# 只有注释时 YAML 解析结果是 null，模板 each 遍历 null 会抛 TypeError，
+# 后果是整个站点构建失败、所有页面变成 0 字节，而不只是这一页报错。
 #
-#   - class_name: 友情链接
-#     class_desc: 那些人，那些事
-#     flink_style: anzhiyu
-#     link_list:
-#       - name: 某某的博客
-#         link: https://example.com/
-#         avatar: https://example.com/avatar.jpg
-#         descr: 一句话描述
+# 想加友链，把下面这段取消注释并照着填，每条四项：名称 / 链接 / 头像 / 一句描述。
+# 填完之后 /link/ 页面会自动渲染成卡片墙。
+#
+# - class_name: 友情链接
+#   class_desc: 那些人，那些事
+#   flink_style: anzhiyu
+#   link_list:
+#     - name: 某某的博客
+#       link: https://example.com/
+#       avatar: https://example.com/avatar.jpg
+#       descr: 一句话描述
+#     - name: 另一个站
+#       link: https://example.org/
+#       avatar: https://example.org/avatar.png
+#       descr: 又一句话
 
-- class_name: 本站的基石
-  class_desc: 这个站点建立在它们之上
+- class_name: 友情链接
+  class_desc: 还没有添加友链
   flink_style: anzhiyu
-  link_list:
-    - name: Hexo
-      link: https://hexo.io/zh-cn/
-      avatar: https://hexo.io/icon/favicon-196x196.png
-      descr: 快速、简洁且高效的博客框架，本站的生成器
-    - name: 安知鱼
-      link: https://hexo.anheyu.com/
-      avatar: https://bu.dusays.com/2023/04/27/64496e511b09c.jpg
-      descr: 本站使用的主题，作者是安知鱼
+  link_list: []

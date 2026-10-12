@@ -556,14 +556,18 @@ footer:
       enable: false
       link: /copyright
     linkList:
-      # 保留主题署名（主题是免费开源的，署名合理），但原来的文字只有一个「主题」，
-      # 页脚渲染出来是「©2026 By 知识混子 主题」，看着像坏了。改成完整名称。
-      - link: https://github.com/anzhiyu-c/hexo-theme-anzhiyu
-        text: 安知鱼主题
-      # - link: https://image.anheyu.com
-      #   text: 图床
-      # - link: https://beian.miit.gov.cn/
-      #   text: 湘ICP备-xxxxxxx号
+      # 作者要求删掉页脚的「安知鱼主题」链接。
+      #
+      # ⚠️ 这里不能写 []。实测 hexo-util 的 deepMerge：
+      #      deepMerge(主题默认, { linkList: [] })          → 主题默认那一项还在
+      #      deepMerge(主题默认, { linkList: [{text:""}] }) → 覆盖成功
+      #   数组是按**下标**合并的，空数组不会清空目标。
+      #   写成 [] 的结果就是页脚照旧显示「©2026 By 知识混子 主题」。
+      #
+      # 所以这里给一项空文本，让那个位置渲染成一个不可见的锚点。
+      # 想换成有意义的链接（比如备案号），改下面两项即可。
+      - link: /
+        text: ''
     subTitle:
       enable: false
       # Typewriter Effect (打字效果)
@@ -1324,10 +1328,19 @@ inject:
     - <link rel="stylesheet" href="/css/visitor-board.css">
     # 站点级样式修正（赞赏码防变形等）
     - <link rel="stylesheet" href="/css/site-fixes.css">
+    # 左下角环境音控件（白噪音）
+    - <link rel="stylesheet" href="/css/ambient-player.css">
 
   bottom:
     # 自定义js
     # - <script src="/js/xxx"></script>
+
+    # ================= 左下角环境音（白噪音） =================
+    # 类似 asoftmurmur.com：白/粉/褐噪音 + 雨声/风声/海浪/篝火，各自一个音量条。
+    # 音频全部用 Web Audio **现场合成**，不加载任何音频文件（无版权问题、无外链依赖）。
+    # 不做自动播放，第一次点击按钮才创建 AudioContext。
+    # 音色列表与参数在 source/js/ambient-player.js 顶部的 SOUNDS 里改。
+    - <script defer src="/js/ambient-player.js"></script>
 
     # ================= 文章底部工具栏 =================
     # 主题自带的微博分享已关掉（ptool.share_weibo: false），
