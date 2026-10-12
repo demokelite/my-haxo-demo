@@ -7,6 +7,13 @@ tags:
   - Hexo
   - Anzhiyu
   - Vercel
+keywords:
+  - Hexo
+  - 安知鱼主题
+  - Vercel
+  - Git 子模块
+  - 静态博客
+  - 博客部署
 description: 从零把一个 Hexo 博客跑起来，并用 Git 子模块管理主题、部署到 Vercel 的完整过程。
 ---
 

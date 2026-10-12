@@ -21,7 +21,12 @@ url: https://www.zbnr.skin
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
-  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
+  # 关掉 trailing_index 后，/about/index.html 会写成 /about/，
+  # canonical 与 og:url 才指向同一个地址。
+  # 之前开着时两者不一致（canonical 是 /about/，og:url 是 /about/index.html），
+  # 等于告诉搜索引擎两个互相矛盾的规范地址。
+  # 文件实际路径不变（仍是 public/about/index.html），Vercel 两个地址都能访问。
+  trailing_index: false
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
 # Directory

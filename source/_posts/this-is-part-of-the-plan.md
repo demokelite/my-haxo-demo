@@ -7,6 +7,13 @@ tags:
   - 解离
   - 决定论
   - 随笔
+keywords:
+  - 随笔
+  - 解离
+  - 决定论
+  - 邵雍占瓶
+  - 三体
+  - 失业
 cover: /img/photos/cover-05-mascaloona.jpg
 description: 一道笔试题，一次解离，和一个守着花瓶的邵雍。
 ---

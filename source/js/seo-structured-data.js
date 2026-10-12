@@ -80,4 +80,21 @@
   // 微博/微信这类不执行 JS 的分享抓取器仍会看到 summary —— 那需要改主题模板。
   var tc = document.querySelector('meta[name="twitter:card"]');
   if (tc && image) tc.setAttribute('content', 'summary_large_image');
+
+  // 把 og:url 对齐到 rel=canonical。
+  // 主题的 Open_Graph.pug 用的是模板里的 url 变量，带 /index.html 后缀，
+  // 而 canonical 是 /about/ 这种形式 —— 两者不一致等于声明了两个规范地址。
+  // 已把 _config.yml 的 pretty_urls.trailing_index 设为 false，sitemap 已经干净了，
+  // 但那个变量不受它影响，所以只能在这里补一刀。
+  // 同样地，这只对执行 JS 的抓取器有效；要彻底修得改主题模板，升级时会丢。
+  try {
+    var canonicalEl = document.querySelector('link[rel="canonical"]');
+    var ogUrlEl = document.querySelector('meta[property="og:url"]');
+    if (canonicalEl && ogUrlEl) {
+      var canonicalHref = (canonicalEl.getAttribute('href') || '').trim();
+      if (canonicalHref && ogUrlEl.getAttribute('content') !== canonicalHref) {
+        ogUrlEl.setAttribute('content', canonicalHref);
+      }
+    }
+  } catch (e) { /* 对齐失败不影响其它功能 */ }
 })();
