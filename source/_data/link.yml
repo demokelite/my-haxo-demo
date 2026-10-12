@@ -2,20 +2,32 @@
 # 主题的 /link/ 页面（友人帐）会读取本文件渲染
 # flink_style 可选：anzhiyu（卡片）/ telescopic（缩略图）/ flexcard（大图卡片）
 # 每个 item 支持字段：name / link / avatar / descr / siteshot / color / tag / recommend
+#
+# ⚠️ 关于这一节：
+# 作者还没有提供真实友链，所以下面这组是「本站的基石」——
+# 用的是本站真正依赖的两个项目，不是随便找的框架官网。
+# 原来那三条（AnZhiYu / Butterfly / Hexo）里 Butterfly 本站根本没用，已删。
+#
+# 等有真实友链了，在下面新增一组，例如：
+#
+#   - class_name: 友情链接
+#     class_desc: 那些人，那些事
+#     flink_style: anzhiyu
+#     link_list:
+#       - name: 某某的博客
+#         link: https://example.com/
+#         avatar: https://example.com/avatar.jpg
+#         descr: 一句话描述
 
-- class_name: 友情链接
-  class_desc: 那些人，那些事
+- class_name: 本站的基石
+  class_desc: 这个站点建立在它们之上
   flink_style: anzhiyu
   link_list:
-    - name: AnZhiYu
-      link: https://hexo.anheyu.com/
-      avatar: https://bu.dusays.com/2023/04/27/64496e511b09c.jpg
-      descr: 安知鱼主题官方示例站
-    - name: Butterfly
-      link: https://butterfly.js.org/
-      avatar: https://npm.elemecdn.com/hexo-theme-butterfly/butterfly.png
-      descr: 本主题的上游项目
     - name: Hexo
       link: https://hexo.io/zh-cn/
       avatar: https://hexo.io/icon/favicon-196x196.png
-      descr: 本站使用的静态博客框架
+      descr: 快速、简洁且高效的博客框架，本站的生成器
+    - name: 安知鱼
+      link: https://hexo.anheyu.com/
+      avatar: https://bu.dusays.com/2023/04/27/64496e511b09c.jpg
+      descr: 本站使用的主题，作者是安知鱼

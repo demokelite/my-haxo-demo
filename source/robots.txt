@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# 站点地图由 hexo-generator-sitemap 生成
+Sitemap: https://www.zbnr.skin/sitemap.xml
+
+# 搜索结果页和分页没必要收录
+Disallow: /page/
+Disallow: /*/page/

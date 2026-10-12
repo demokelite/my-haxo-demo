@@ -1304,6 +1304,12 @@ inject:
     # 自定义js
     # - <script src="/js/xxx"></script>
 
+    # ================= 结构化数据（JSON-LD） =================
+    # 读页面已有的 meta 生成 BlogPosting / WebSite，供搜索引擎理解内容，
+    # 顺便把主题写死的 twitter:card=summary 升级成 summary_large_image。
+    # 详见 source/js/seo-structured-data.js
+    - <script defer src="/js/seo-structured-data.js"></script>
+
     # ================= 访客小板报 =================
     # 归属地 / 距离 / IP / 天气。逻辑与可配置项都在 source/js/visitor-board.js 顶部
     - <script defer src="/js/visitor-board.js"></script>
