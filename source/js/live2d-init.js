@@ -45,6 +45,11 @@
     // 想让模型离底部有点距离，把这里改成 '20px' 之类即可。
     bottomOffset: '0px',
 
+    // 移动端是否加载看板娘。默认关闭：手机屏幕小，模型会挡住内容，还费流量。
+    // 判定依据是窗口宽度，不是 UA —— 窄窗口的桌面浏览器同样会被判定为移动端。
+    disableOnMobile: true,
+    mobileMaxWidth: 768,
+
     // 提示气泡（对列表里每个模型都生效）
     tips: {
       welcomeMessage: ['欢迎来到本站～'],
@@ -56,9 +61,20 @@
 
   /* ============================== 初始化 ============================== */
 
+  // 是否应跳过（移动端 / 窄窗口）
+  function shouldSkip() {
+    if (!CONFIG.disableOnMobile) return false;
+    // 优先用窗口宽度；顺带兜一层 UA，避免某些移动端浏览器视口宽度被放大
+    var narrow = window.innerWidth <= CONFIG.mobileMaxWidth;
+    var mobileUA = /Android|iPhone|iPod|iPad|Mobile|HarmonyOS/i.test(navigator.userAgent);
+    return narrow || mobileUA;
+  }
+
   function boot() {
     if (window.__l2dBooted) return;
     window.__l2dBooted = true;
+
+    if (shouldSkip()) return;   // 移动端直接不加载，连模型请求都不发
 
     if (!window.L2D_WIDGET || typeof window.L2D_WIDGET.createWidget !== 'function') {
       console.warn('[live2d] l2d-widget 未加载，跳过看板娘');
