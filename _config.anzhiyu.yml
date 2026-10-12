@@ -189,7 +189,9 @@ error_img:
 error_404:
   enable: true
   subtitle: "请尝试站内搜索寻找文章"
-  background: /img/mine/404-bg.jpg
+  # 原来是 404-bg.jpg，只有 512x512，铺满全屏会糊成一片。
+  # 换成 1920x1080 的这张；想换回小图就把下面这行改回去。
+  background: /img/mine/mascaloona-bliss.jpg
 
 post_meta:
   page: # Home Page

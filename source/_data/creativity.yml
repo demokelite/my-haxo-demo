@@ -1,0 +1,37 @@
+﻿# 技能图标数据（关于页的「技能」卡 + 首页顶部的图标墙都会读它）
+#
+# 结构：外层是列表，每项含一个 creativity_list，每项需要 name / icon / color 三个字段。
+# 模板 themes/anzhiyu/layout/includes/anzhiyu/tags-group-all.pug 会把图标两两配对做滚动效果，
+# 所以项数建议保持偶数（现在是 8 个）。
+#
+# ⚠️ 图标用的是本地 SVG（source/img/skills/），不依赖任何第三方 CDN。
+#    想换成真实品牌 logo，把 icon 换成图片地址即可，color 是图标底下的圆形背景色。
+#
+# ⚠️ 下面的技能是根据你的项目经历写的（Python 爬虫、Vue/小程序前端、Flask 后端、Ren'Py 游戏），
+#    清单里第 2 节有专门一项问你想展示什么，填了我再改。
+
+- creativity_list:
+    - name: Python
+      icon: /img/skills/python.svg
+      color: "#3776AB"
+    - name: JavaScript
+      icon: /img/skills/javascript.svg
+      color: "#F7DF1E"
+    - name: Vue
+      icon: /img/skills/vue.svg
+      color: "#41B883"
+    - name: HTML5 / CSS3
+      icon: /img/skills/htmlcss.svg
+      color: "#E34F26"
+    - name: Flask
+      icon: /img/skills/flask.svg
+      color: "#3BABC3"
+    - name: MySQL
+      icon: /img/skills/mysql.svg
+      color: "#4479A1"
+    - name: Ren'Py
+      icon: /img/skills/renpy.svg
+      color: "#FF7F7F"
+    - name: Git
+      icon: /img/skills/git.svg
+      color: "#F05032"
