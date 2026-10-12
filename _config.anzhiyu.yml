@@ -377,7 +377,10 @@ waline:
 # envId 填你的云函数地址（含 https:// 前缀），例如 https://twikoo-xxxx.vercel.app
 # 留空时评论框不会加载，但站点仍可正常构建
 twikoo:
-  envId: # TODO 替换为你的 Twikoo 云函数地址
+  # 评论后端挂在同一套 Vercel 项目的 api/twikoo.js 上，所以直接用本站域名即可，
+  # 不需要为评论单独绑域名或加 DNS 记录。
+  # ⚠️ 前提：Vercel 项目里要设置环境变量 MONGODB_URI，否则函数会报错。
+  envId: https://www.zbnr.skin/api/twikoo
   region:
   visitor: true # 文章访问量（由 Twikoo 云函数提供）
   option:

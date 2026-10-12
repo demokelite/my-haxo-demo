@@ -2,5 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "git submodule update --init --recursive; npm install",
   "buildCommand": "npm run build",
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30
+    }
+  }
 }
