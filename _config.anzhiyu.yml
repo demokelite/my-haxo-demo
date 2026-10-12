@@ -172,13 +172,15 @@ cover:
   # left/right/both
   position: left
   # When cover is not set, the default cover is displayed (当没有设置cover时，默认的封面显示)
-  # 未设置 cover 的文章会从这里随机取一张
-  # 下面用的是 picsum.photos 占位图，请替换成你自己的图片
+  # 未设置 cover 的文章会从这里随机取一张。
+  # 四张都是 Unsplash 授权的实拍照片（经 picsum 分发），本地存了一份，
+  # 不依赖外部图床。挑选标准是「暗部足够 + 画面不花」，因为白色标题要压在图上。
+  # 来源与作者见 docs/photo-credits.md
   default_cover:
-    - https://picsum.photos/seed/anzhiyu1/800/500
-    - https://picsum.photos/seed/anzhiyu2/800/500
-    - https://picsum.photos/seed/anzhiyu3/800/500
-    - https://picsum.photos/seed/anzhiyu4/800/500
+    - /img/photos/cover-01-mist-mountain.jpg
+    - /img/photos/cover-02-mist-path.jpg
+    - /img/photos/cover-03-sea-rocks.jpg
+    - /img/photos/cover-04-river-dusk.jpg
 
 # Replace Broken Images (替换无法显示的图片)
 error_img:

@@ -48,18 +48,19 @@
         color: "#c69043"
     item:
       - EDU,计算机相关专业
-    img: /img/mine/mascaloona-bliss.jpg
+    img: /img/photos/bg-04-anchor-wall.jpg
 
   statistic:
     link: /archives
     text: 文章隧道
-    cover: /img/mine/mascaloona-bliss.jpg
+    # 铁路双轨向远处汇聚，正好对应「文章隧道」这个词
+    cover: /img/photos/bg-01-railway.jpg
 
   map:
     title: 我现在住在
     StrengthenTitle: 中国，承德
-    background: /img/mine/mascaloona-bliss.jpg
-    backgroundDark: /img/mine/404-bg.jpg
+    background: /img/photos/bg-02-misty-coast.jpg
+    backgroundDark: /img/photos/bg-03-frost-field.jpg
 
   # ⚠️ 下面这三行原本是「生于 2002 / 某大学 / 大三学生」这种格式。
   # 按你的要求不暴露真实信息，改成了非身份类的描述。想改随意。
@@ -98,7 +99,6 @@
     game_title: 视觉小说
     game_uid:
     game_bg: /img/mine/mascaloona-bliss.jpg
-
   # ⚠️ 追番列表需要 name / href / cover 三项，我没有你的追番数据，留空。
   #    填上任意条就会自动渲染成封面墙。
   comic:
@@ -109,13 +109,13 @@
   like:
     like_tips: 关注偏好
     like_title: 数码科技
-    like_bg: /img/mine/mascaloona-bliss.jpg
+    like_bg: /img/photos/bg-01-railway.jpg
     like_bottom: 手机、电脑软硬件
 
   music:
     music_tips: 音乐偏好
     music_title: 随便听听
-    music_bg: /img/mine/404-bg.jpg
+    music_bg: /img/photos/bg-02-misty-coast.jpg
     music_link: /music
 
   # reward_list 是可选键，留空则不显示打赏榜。

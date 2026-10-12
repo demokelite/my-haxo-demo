@@ -6,25 +6,49 @@
 # 注意：album_list 的每一项都必须有 date 字段。
 # 主题的 album_detail.pug 第 41 行直接执行 new Date(item.date).toISOString()，
 # 没有做空值保护，缺少 date 会抛 RangeError 并把页面渲染成 0 字节。
+#
+# ⚠️ 关于定位：
+# 这一册里的照片是**从网上收集的**（Unsplash 授权，见 docs/photo-credits.md），
+# 不是博主自己拍的。所以这里叫「收藏的照片」而不是「我的日常」——
+# 挂一册网图却写着「随手记录」，是假的。
+# 等你有自己的照片，把 image 换掉、class_name 改回「随手拍」即可。
 
-- class_name: 随手拍
-  description: 一些随手记录的瞬间
-  cover: https://picsum.photos/seed/albumcover/800/500
-  path_name: /album/demo/
+- class_name: 收藏的照片
+  description: 从各处收来的照片，都是安静的那一类。
+  cover: /img/photos/album-01-foggy-beach.jpg
+  path_name: /album/scenery/
   type: 1 # 1 = 瀑布流水布局
-  top_background: https://picsum.photos/seed/albumcover/1600/600
+  top_background: /img/photos/bg-02-misty-coast.jpg
   top_link: /about/
   top_btn_text: 关于我
   album_list:
-    - content: 第一组照片
-      date: 2026-10-11 20:00:00
-      address: 家里
+    - content: 雾里的海滩只剩人形
+      date: 2026-09-18 17:20:00
+      address: 海边
       image:
-        - https://picsum.photos/seed/photo1/800/600
-        - https://picsum.photos/seed/photo2/800/600
-        - https://picsum.photos/seed/photo3/800/600
-    - content: 第二组照片
-      date: 2026-10-10 18:30:00
+        - /img/photos/album-01-foggy-beach.jpg
+    - content: 隧道尽头一点暖光
+      date: 2026-08-30 21:05:00
+      address: 隧道
       image:
-        - https://picsum.photos/seed/photo4/800/600
-        - https://picsum.photos/seed/photo5/800/600
+        - /img/photos/album-02-tunnel-light.jpg
+    - content: 桌上静置的手机
+      date: 2026-08-12 10:40:00
+      address: 桌前
+      image:
+        - /img/photos/album-03-phone-desk.jpg
+    - content: 沙脊上一行车辙
+      date: 2026-07-25 16:10:00
+      address: 沙丘
+      image:
+        - /img/photos/album-04-dune-tracks.jpg
+    - content: 暗处的一点紫
+      date: 2026-07-03 19:30:00
+      address: 窗边
+      image:
+        - /img/photos/album-05-purple-bloom.jpg
+    - content: 雪后孤山一条上坡径
+      date: 2026-06-14 08:15:00
+      address: 山里
+      image:
+        - /img/photos/album-06-snow-path.jpg
