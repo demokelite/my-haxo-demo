@@ -12,7 +12,7 @@
 #    避免国内访问慢或外链失效。想换成自己的图，替换路径即可。
 
 - class_name: 关于页
-  subtitle: 生活明朗，万物可爱
+  subtitle: 保持谦虚，始终学习
   avatarImg: /img/mine/avatar.jpg
   # 这个名字会显示在「我是 XXX」里，也会出现在音乐卡的文案里
   name: 知识混子
@@ -26,8 +26,7 @@
     word:
       - 学习
       - 生活
-      - 程序
-      - 体验
+      - 随笔
 
   helloAbout: Hello there!
 
@@ -66,7 +65,7 @@
   # 按你的要求不暴露真实信息，改成了非身份类的描述。想改随意。
   selfInfo:
     selfInfoTips1: 身份
-    selfInfoContentYear: 开发者
+    selfInfoContentYear: 学生
     selfInfoTips2: 专业方向
     selfInfoContent2: 计算机科学与技术
     selfInfoTips3: 现在在
@@ -77,26 +76,26 @@
   #    personality_img 是 16personalities 的示意图，可以去官网截图或找对应 SVG。
   personalities:
     author_name: 知识混子
-    personality_type:
+    personality_type: INFJ-A
     photo_url: /img/mine/avatar.jpg
     personality_img: /img/mine/404-bg.jpg
     name_url: https://github.com/demokelite
 
   maxim:
     maxim_tips: 座右铭
-    maxim_top: 生活明朗，
-    maxim_bottom: 万物可爱。
+    maxim_top: 保持谦虚，
+    maxim_bottom: 始终学习
 
   buff:
     buff_tips: 特长
-    buff_top: 把想法做成
-    buff_bottom: 能跑起来的东西
+    buff_top: 把计划
+    buff_bottom: 变为行动
 
   # ⚠️ 这张卡原本是「原神 + UID」。你没有提供游戏信息，先填成中性内容。
   #    注意：game_title 如果填「原神」，模板会额外显示一个加载条动画。
   game:
     game_tips: 最近在做
-    game_title: 视觉小说
+    game_title: 原神
     game_uid:
     game_bg: /img/mine/mascaloona-bliss.jpg
   # ⚠️ 追番列表需要 name / href / cover 三项，我没有你的追番数据，留空。

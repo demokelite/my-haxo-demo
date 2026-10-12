@@ -147,7 +147,7 @@ katex:
 # --------------------------------------
 
 # Favicon（网站图标）
-favicon: /favicon.ico
+favicon: /img/mine/favicon.png
 
 # Avatar (头像)
 avatar:
@@ -1076,9 +1076,9 @@ css_prefix: true
 home_top:
   enable: true # 开关
   timemode: date #date/updated
-  title: 生活明朗
-  subTitle: 万物可爱。
-  siteText: haxo-blog
+  title: 保持谦虚
+  subTitle: 始终学习
+  siteText: 知识混子的天地
   category:
     # ⚠️ 这三项一项都不能删！
     # Hexo 会把本文件与 themes/anzhiyu/_config.yml 深合并，而 hexo-util 的
@@ -1277,7 +1277,9 @@ rightClickMenu:
 
 # 首页随便逛逛people模式 而非技能点模式，关闭后为技能点模式需要配置creativity.yml
 peoplecanvas:
-  enable: true
+  # 关掉装饰画布，让 home_top 的标题文字显示出来。
+  # 模板是二选一：开着画布就不会渲染标题。
+  enable: false
   img: https://upload-bbs.miyoushe.com/upload/2024/07/27/125766904/ba62475f396df9de3316a08ed9e65d86_5680958632268053399..png
 
 # 动效

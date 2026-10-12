@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Haxo Blog
-subtitle: ''
-description: ''
-keywords:
-author: demokelite
+title: 知识混子的天地
+subtitle: 碎碎念与技术笔记
+description: 知识混子的个人博客。记录写代码、折腾项目、读书和日常的一些想法。
+keywords: 个人博客,碎碎念,日常,技术分享
+author: 知识混子
 language: zh-CN
 timezone: 'Asia/Shanghai'
 
