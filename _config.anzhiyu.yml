@@ -1297,9 +1297,14 @@ rightClickMenu:
 
 # 首页随便逛逛people模式 而非技能点模式，关闭后为技能点模式需要配置creativity.yml
 peoplecanvas:
-  # 关掉装饰画布，让 home_top 的标题文字显示出来。
-  # 模板是二选一：开着画布就不会渲染标题。
-  enable: false
+  # 作者明确选择保留装饰画布（2026-10-12 在填写清单里选的）。
+  # ⚠️ 模板里画布和标题是二选一（top.pug 的 if/else）：
+  #    开着画布，home_top 的 title / subTitle / siteText 就永远不渲染。
+  #    所以下面 home_top 里的「保持谦虚 / 始终学习 / 知识混子的天地」目前不会出现在页面上。
+  #    哪天真想显示标题，把这里改成 false 即可，那三个字段已经填好了。
+  enable: true
+  # 这张图来自米游社，是主题作者的示例图。
+  # 想换成自己的：放到 source/img/ 下，把这里改成本地路径（推荐，避免外链失效）。
   img: https://upload-bbs.miyoushe.com/upload/2024/07/27/125766904/ba62475f396df9de3316a08ed9e65d86_5680958632268053399..png
 
 # 动效
