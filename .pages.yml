@@ -1,0 +1,145 @@
+# Pages CMS 配置
+#
+# 在线管理界面：https://app.pagescms.org
+# 用 GitHub 账号登录后选择本仓库，即可在网页上写文章、改配置。
+# 保存时会直接提交到本仓库的 main 分支，Vercel 随即自动重新构建。
+#
+# 文档：https://pagescms.org/docs/
+#
+# 说明：
+# - 文章用「结构化字段」编辑（标题、分类、标签等是独立输入框）
+# - 配置文件用 format: code，按纯文本编辑，**不会丢注释**
+#   （若改用 format: yaml，Pages CMS 会解析后重新序列化，把 _config.anzhiyu.yml
+#    里的大量中文注释全部抹掉，所以务必保持 code）
+
+media:
+  - name: mine
+    label: 站点图片
+    input: source/img/mine
+    output: /img/mine
+
+content:
+  # ==================== 文章 ====================
+  - name: posts
+    label: 文章
+    type: collection
+    path: source/_posts
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+    view:
+      primary: title
+      sort: date
+      order: desc
+      fields: [title, date, categories, tags]
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 发布日期
+        type: date
+        options:
+          time: true
+        required: true
+      - name: categories
+        label: 分类
+        type: string
+        list: true
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: description
+        label: 摘要
+        type: text
+      - name: cover
+        label: 封面图
+        type: image
+      - name: body
+        label: 正文
+        type: rich-text
+
+  # ==================== 主题与站点配置 ====================
+  - name: theme-config
+    label: 主题设置 _config.anzhiyu.yml
+    type: file
+    path: _config.anzhiyu.yml
+    format: code
+
+  - name: site-config
+    label: 站点设置 _config.yml
+    type: file
+    path: _config.yml
+    format: code
+
+  # ==================== 数据文件 ====================
+  - name: friend-links
+    label: 友链数据 link.yml
+    type: file
+    path: source/_data/link.yml
+    format: code
+
+  - name: album-data
+    label: 相册数据 album.yml
+    type: file
+    path: source/_data/album.yml
+    format: code
+
+  # ==================== 独立页面 ====================
+  - name: pages
+    label: 独立页面
+    type: group
+    items:
+      - name: page-about
+        label: 关于本人
+        type: file
+        path: source/about/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+
+      - name: page-link
+        label: 友人帐
+        type: file
+        path: source/link/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+
+      - name: page-comments
+        label: 留言板
+        type: file
+        path: source/comments/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+
+      - name: page-privacy
+        label: 隐私政策
+        type: file
+        path: source/privacy/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text

@@ -70,6 +70,47 @@ npm run server
 
 注意 Hexo 的默认端口是 4000，不是 1313（1313 是 Hugo 的默认端口）。
 
+## 写文章与管理
+
+有两种方式。
+
+### 方式一：本地写
+
+```bash
+npx hexo new "文章标题"     # 在 source/_posts/ 下生成 Markdown
+npm run server              # 打开 http://localhost:4000 预览
+git add -A && git commit -m "post: 文章标题" && git push
+```
+
+推送后 Vercel 会自动重新构建并发布。
+
+### 方式二：网页后台（Pages CMS）
+
+仓库根目录的 `.pages.yml` 配置了 [Pages CMS](https://app.pagescms.org) 在线管理后台。
+
+使用步骤：
+
+1. 打开 <https://app.pagescms.org>，用 GitHub 账号登录。
+2. 首次使用需安装 Pages CMS 的 GitHub App，并授权访问 `my-haxo-demo` 仓库。
+3. 进入仓库即可在网页上编辑。
+
+可编辑的内容：
+
+| 菜单 | 对应文件 |
+| --- | --- |
+| 文章 | `source/_posts/*.md` |
+| 主题设置 | `_config.anzhiyu.yml` |
+| 站点设置 | `_config.yml` |
+| 友链数据 | `source/_data/link.yml` |
+| 相册数据 | `source/_data/album.yml` |
+| 独立页面 | `source/about`、`link`、`comments`、`privacy` 下的 `index.md` |
+| 站点图片 | `source/img/mine/` |
+
+保存时直接提交到 `main` 分支，Vercel 随即自动重新构建，本地不需要做任何操作。
+
+注意：`_config.anzhiyu.yml`、`_config.yml` 这类配置文件在后台是以**纯文本编辑器**打开的（`format: code`）。
+不要改成 `format: yaml` —— 那样 Pages CMS 会解析后重新序列化，把文件里的大量中文注释全部抹掉。
+
 ## 部署到 Vercel
 
 1. 在 Vercel 新建项目，导入本仓库。
