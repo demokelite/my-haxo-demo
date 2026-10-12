@@ -73,49 +73,81 @@
 
 ---
 
-## 第二步：部署云函数（Vercel）
+## 第二步：部署云函数（Netlify，推荐）
 
-1. 注册或登录 Vercel：<https://vercel.com/signup>
+> **不要部署到 Vercel。**
+>
+> 实测 `*.vercel.app` 在中国大陆被 SNI 阻断——TLS 握手阶段直接超时，
+> 而且对**一个绝对不存在的子域**也是同样的失败，说明被拦的是整个后缀，与站点无关。
+> 同一台机器上 `*.netlify.app` 的 TLS 握手是正常的。
+>
+> 部署到 Vercel 的话，博客和评论后端会一起打不开（除非你已经有自定义域名）。
 
-2. 点击官方一键部署链接：
+Netlify 免费额度：每月 125,000 次函数调用、100 小时计算时长，个人博客绰绰有余。
 
-   <https://vercel.com/import/project?template=https://github.com/twikoojs/twikoo/tree/main/templates/vercel-min>
+1. 注册并登录 Netlify：<https://app.netlify.com>，创建一个 Team。
 
-   这个模板会把它 fork 到你自己的账号下并自动部署。项目名可以随意，例如 `twikoo`。
+2. 打开官方模板仓库，点右上角 **Fork**：
 
-3. 配置环境变量。
+   <https://github.com/twikoojs/twikoo-netlify>
 
-   进入项目 → **Settings** → **Environment Variables** → 添加：
+3. 回到 Netlify，点 **Add new site** → **Import an existing project**。
+
+4. 点 **Deploy with GitHub**。首次需要授权 GitHub，然后选择刚 fork 的 `twikoo-netlify`。
+
+5. 在部署前展开 **Add environment variables**，添加：
 
    | Key | Value |
    | --- | --- |
    | `MONGODB_URI` | 第一步拿到的连接字符串（已替换用户名密码） |
 
-   环境选 Production（勾选全部也可以），保存。
+   然后点 **Deploy twikoo-netlify**。
 
-4. **关闭部署保护。**
+6. 部署完成后，进入 **Domain settings** → 右侧 **Options** → **Edit site name**，改一个好记的名字，
+   得到形如 `https://xxx.netlify.app` 的地址。
 
-   进入 **Settings** → **Deployment Protection** → 把 **Vercel Authentication** 设为 **Disabled**，保存。
+7. 浏览器访问该地址，看到「Twikoo 云函数运行正常」说明后端已经跑起来了。
 
-   这一步不能跳过。默认开启时，云函数只允许带 Vercel 登录态的请求访问，
-   你博客的评论请求会被拦在门外，表现为评论框一直加载不出来。
+8. **记下环境 id —— 它带路径后缀：**
 
-5. **重新部署。**
+   ```
+   https://xxx.netlify.app/.netlify/functions/twikoo
+   ```
 
-   进入 **Deployments** → 任意一条记录右侧的 **⋯** → **Redeploy** → 确认。
+   这一点和 Vercel 不同，**必须带上 `/.netlify/functions/twikoo`**，否则评论加载不出来。
 
-   环境变量只对新部署生效，不重新部署的话第 3 步的设置不会起作用。
+---
 
-6. 验证部署结果。
+## 备选：部署到 Vercel
 
-   进入 **Overview**，点击 **Domains** 下面的那条链接，如果看到类似
-   「Twikoo 云函数运行正常」的提示，说明后端已经跑起来了。
+只有在**你已经绑定自定义域名**的情况下才建议用这个方案，否则国内访问不了。
 
-7. 记下这个地址。
+1. 点击官方一键部署链接：
 
-   **Domains 里的完整地址就是环境 id**，形如 `https://twikoo-xxxx.vercel.app`。
+   <https://vercel.com/import/project?template=https://github.com/twikoojs/twikoo/tree/main/templates/vercel-min>
 
-   注意两点：要**带 `https://` 前缀**，**结尾不要带斜杠**。
+   该模板会把它 fork 到你自己的账号下并自动部署。项目名随意，例如 `twikoo`。
+
+2. 进入项目 → **Settings** → **Environment Variables**，添加：
+
+   | Key | Value |
+   | --- | --- |
+   | `MONGODB_URI` | 第一步拿到的连接字符串 |
+
+3. 进入 **Settings** → **Deployment Protection** → 把 **Vercel Authentication** 设为 **Disabled**，保存。
+
+   这一步不能跳过。默认开启时云函数只允许带 Vercel 登录态的请求访问，
+   评论请求会被拦在门外，表现为评论框一直加载不出来。
+
+4. 进入 **Deployments** → 任意一条右侧的 **⋯** → **Redeploy**。
+
+   环境变量只对新部署生效，不重新部署的话第 2 步的设置不会起作用。
+
+5. 进入 **Overview**，点击 **Domains** 下面的链接，看到「Twikoo 云函数运行正常」即为成功。
+
+6. 环境 id 是 **Domains 里的完整地址**，形如 `https://twikoo-xxxx.vercel.app`。
+
+   要**带 `https://` 前缀**，**结尾不带斜杠**，而且**不带任何路径**。
 
 ---
 
@@ -177,11 +209,9 @@ npx hexo clean && npx hexo generate
 
 **中国大陆访问评论很慢甚至加载不出来**
 
-`*.vercel.app` 的默认域名在国内访问不稳定。两个办法：
-
-- 在 Vercel 项目里绑定自己的域名，然后在 Twikoo 后台把 `envId` 换成新域名
-- 改用 Netlify 部署后端（官方对 Netlify 的国内访问评价更好）。
-  前端配置不用改，只换 `envId` 即可
+如果你的后端在 Vercel（`*.vercel.app`），这就是必然结果——那个后缀在国内被整段阻断。
+换到 Netlify（`*.netlify.app`）即可，前端配置不用改，只换 `envId`。
+换的时候记得带上 `/.netlify/functions/twikoo` 后缀。
 
 **评论数据存在哪，怎么备份**
 
