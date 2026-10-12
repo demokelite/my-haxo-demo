@@ -10,7 +10,11 @@ menu:
 
   我的:
     相册集: /album/ || anzhiyu-icon-images
-    音乐馆: /music/ || anzhiyu-icon-music
+    # 音乐馆暂时注释掉：歌单还没配。
+    # 原来这里指向 nav_music.id，而那个值是主题作者的网易云歌单，
+    # 等于让访客的站点播放陌生人的音乐，已经清空。
+    # 等你自己有歌单了，把下面的注释去掉、并在 nav_music 里填上 id 和 server 即可。
+    # 音乐馆: /music/ || anzhiyu-icon-music
 
   关于:
     关于本人: /about/ || anzhiyu-icon-paper-plane
@@ -1181,12 +1185,17 @@ comment_barrage_config:
 # 左下角音乐配置项
 # https://github.com/metowolf/MetingJS
 nav_music:
+  # 作者自己关掉了导航栏播放器，这里保持关闭。
   enable: false
   console_widescreen_music: false # 宽屏状态控制台显示音乐而不是标签 enable为true 控制台依然会显示
-  id: 8152976493
+  # ⚠️ 原来是 8152976493 —— 那是**主题作者**的网易云歌单，不是本站的。
+  # 已清空。填入自己的歌单 ID 后，音乐馆页和播放器才会加载你的音乐。
+  # 网易云歌单 ID 就是歌单链接里 ?id= 后面那串数字。
+  id:
   server: netease
   volume: 0.7 # 默认音量
-  all_playlist: https://y.qq.com/n/ryqq/playlist/8802438608
+  # 原来指向主题作者的 QQ 音乐歌单，一并清空
+  all_playlist:
 
 # 路径为 /music 的音乐页面默认加载的歌单 1. nav_music 2. custom
 music_page_default: nav_music

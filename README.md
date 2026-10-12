@@ -263,6 +263,11 @@ module.exports = vercel.default ?? vercel;
     `else` 分支才渲染 `home_top.title / subTitle / siteText`。开着画布，那三个字段永远不显示。
 13. **本地测量的体积不可信。** `hexo server` 不做 gzip/brotli，本地看到的 CSS 是 711 KB，
     线上经 brotli 压缩实际只有约 88 KB。判断传输体积要 `curl` 线上并带 `Accept-Encoding` 头。
+14. **主题源码里写死了主题作者的网易云歌单。** `themes/anzhiyu/source/js/utils.js` 的
+    `getCustomPlayList` 有一行 `const userId = "8152976493"`，访问 `/music/` 且没带
+    `?id=&server=` 参数时会用它。本站已清空 `nav_music.id`、移除导航入口，播放器不再渲染，
+    那段代码找不到目标元素会直接返回，实际无影响。但以后若要启用音乐馆，**不能只填配置** ——
+    这个写死的值会作为兜底出现，需要用 URL 参数覆盖或改主题源码，而改主题源码会在升级子模块时丢失。
 
 ## 相关文档
 
