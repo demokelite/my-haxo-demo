@@ -18,6 +18,25 @@
     return (el.getAttribute(attr || 'content') || '').trim();
   }
 
+  // 先把 og:url 对齐到 rel=canonical，再往下读值。
+  // 主题的 Open_Graph.pug 用的是模板里的 url 变量，带 /index.html 后缀，
+  // 而 canonical 是 /about/ 这种形式 —— 两者不一致等于声明了两个规范地址。
+  // 已把 _config.yml 的 pretty_urls.trailing_index 设为 false，sitemap 因此干净了，
+  // 但那个变量不受它影响，所以只能在这里补一刀。
+  // ⚠️ 顺序很重要：必须在对齐之后才读 og:url，否则下面的 JSON-LD 会拿到旧值。
+  // （第一版就踩了这个坑：页面的 og:url 是对齐过的，JSON-LD 里的 url 却还是 /index.html。）
+  // 局限：只对执行 JS 的抓取器有效；要彻底修得改主题模板，升级时会丢。
+  try {
+    var canonicalEl = document.querySelector('link[rel="canonical"]');
+    var ogUrlEl = document.querySelector('meta[property="og:url"]');
+    if (canonicalEl && ogUrlEl) {
+      var canonicalHref = (canonicalEl.getAttribute('href') || '').trim();
+      if (canonicalHref && ogUrlEl.getAttribute('content') !== canonicalHref) {
+        ogUrlEl.setAttribute('content', canonicalHref);
+      }
+    }
+  } catch (e) { /* 对齐失败不影响其它功能 */ }
+
   var ogType = meta('meta[property="og:type"]');
   var title = meta('meta[property="og:title"]') || document.title;
   var url = meta('meta[property="og:url"]') || location.href;
@@ -59,11 +78,20 @@
     }
   } else {
     // 其余页面：WebSite + Person
+    // url 要的是**站点根**，不是当前页地址，所以从配置域名推出来而不是用 location。
+    // 用 location.origin 在预览部署（*.vercel.app）上会写出预览域名，
+    // 而 canonical 始终是 _config.yml 里配的正式域名，两者会打架。
+    var siteRoot = '/';
+    try {
+      siteRoot = new URL(canonicalHref || url).origin + '/';
+    } catch (e) {
+      siteRoot = location.origin + '/';
+    }
     data = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: siteName || document.title.split('|').pop().trim(),
-      url: location.origin + '/',
+      url: siteRoot,
       inLanguage: 'zh-CN',
       author: { '@type': 'Person', name: authorName, url: authorUrl }
     };
@@ -80,21 +108,4 @@
   // 微博/微信这类不执行 JS 的分享抓取器仍会看到 summary —— 那需要改主题模板。
   var tc = document.querySelector('meta[name="twitter:card"]');
   if (tc && image) tc.setAttribute('content', 'summary_large_image');
-
-  // 把 og:url 对齐到 rel=canonical。
-  // 主题的 Open_Graph.pug 用的是模板里的 url 变量，带 /index.html 后缀，
-  // 而 canonical 是 /about/ 这种形式 —— 两者不一致等于声明了两个规范地址。
-  // 已把 _config.yml 的 pretty_urls.trailing_index 设为 false，sitemap 已经干净了，
-  // 但那个变量不受它影响，所以只能在这里补一刀。
-  // 同样地，这只对执行 JS 的抓取器有效；要彻底修得改主题模板，升级时会丢。
-  try {
-    var canonicalEl = document.querySelector('link[rel="canonical"]');
-    var ogUrlEl = document.querySelector('meta[property="og:url"]');
-    if (canonicalEl && ogUrlEl) {
-      var canonicalHref = (canonicalEl.getAttribute('href') || '').trim();
-      if (canonicalHref && ogUrlEl.getAttribute('content') !== canonicalHref) {
-        ogUrlEl.setAttribute('content', canonicalHref);
-      }
-    }
-  } catch (e) { /* 对齐失败不影响其它功能 */ }
 })();
