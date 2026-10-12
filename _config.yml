@@ -13,8 +13,11 @@ timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-## 注意: Hexo 本地预览默认端口是 4000（不是 Hugo 的 1313）
-url: http://localhost:4000
+## 线上地址。Vercel 把 apex（zbnr.skin）308 永久跳转到 www，所以规范地址用 www。
+## 改这里会影响 canonical、og:url、og:image、sitemap、RSS —— 都要指向线上域名，
+## 否则分享卡片和搜索引擎会拿到错误的地址。
+## 本地预览仍用 http://localhost:4000（Hexo 默认端口，不是 Hugo 的 1313）。
+url: https://www.zbnr.skin
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
