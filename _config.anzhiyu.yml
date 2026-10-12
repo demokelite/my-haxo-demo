@@ -556,8 +556,10 @@ footer:
       enable: false
       link: /copyright
     linkList:
+      # 保留主题署名（主题是免费开源的，署名合理），但原来的文字只有一个「主题」，
+      # 页脚渲染出来是「©2026 By 知识混子 主题」，看着像坏了。改成完整名称。
       - link: https://github.com/anzhiyu-c/hexo-theme-anzhiyu
-        text: 主题
+        text: 安知鱼主题
       # - link: https://image.anheyu.com
       #   text: 图床
       # - link: https://beian.miit.gov.cn/
@@ -1209,7 +1211,9 @@ visitorMail:
 ptool:
   enable: true
   share_mobile: true
-  share_weibo: true
+  # 关掉微博分享按钮，改由 source/js/post-tools.js 注入一个指向 GitHub 主页的图标。
+  # 作者的微博早就没在用了，而 GitHub 是真正会持续更新的地方。
+  share_weibo: false
   share_copyurl: true
   categories: false # 是否显示分类
   mode: # 运营模式与责任，不配置不显示
@@ -1245,15 +1249,20 @@ greetingBox:
 
 # 文章顶部ai摘要
 post_head_ai_description:
+  # ⚠️ 这个区块原来带着主题作者的品牌和收款信息，已全部换掉：
+  #   gptName  AnZhiYu  → 页面上直接显示为「AnZhiYu GPT」，对话里也自称「我是文章辅助AI: AnZhiYu GPT」
+  #   btnLink  爱发电链接 → 卡片上的按钮会 window.open 到**主题作者的**打赏页
+  #   key/Referer        → 占位值 xxxx 和 https://xx.xx/
+  # 这些值会被塞进每个页面的 GLOBAL_CONFIG，所以不做处理的话全站都带着别人的收款链接。
   enable: true
-  gptName: AnZhiYu
-  mode: local # 默认模式 可选值: tianli/local
+  gptName: 知识混子 # 页面上显示为「知识混子 GPT」
+  mode: local # 默认模式 可选值: tianli/local。local 不需要密钥，直接在本地抽摘要
   switchBtn: false # 可以配置是否显示切换按钮 以切换tianli/local
-  btnLink: https://afdian.net/item/886a79d4db6711eda42a52540025c377
+  btnLink: /about/ # 卡片按钮指向本站关于页；原来指向主题作者的爱发电
   randomNum: 3 # 按钮最大的随机次数，也就是一篇文章最大随机出来几种
   basicWordCount: 1000 # 最低获取字符数, 最小1000, 最大1999
-  key: xxxx
-  Referer: https://xx.xx/
+  key: # local 模式不需要；tianli 模式才要填
+  Referer: https://www.zbnr.skin/ # 请求 tianli 接口时带的 Referer，已改成自己的域名
 
 # 快捷键配置
 shortcutKey:
@@ -1312,6 +1321,11 @@ inject:
   bottom:
     # 自定义js
     # - <script src="/js/xxx"></script>
+
+    # ================= 文章底部工具栏 =================
+    # 主题自带的微博分享已关掉（ptool.share_weibo: false），
+    # 这里补一个指向 GitHub 主页的图标。详见 source/js/post-tools.js
+    - <script defer src="/js/post-tools.js"></script>
 
     # ================= 结构化数据（JSON-LD） =================
     # 读页面已有的 meta 生成 BlogPosting / WebSite，供搜索引擎理解内容，
