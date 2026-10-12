@@ -1111,22 +1111,24 @@ home_top:
       icon: anzhiyu-icon-box-archive
   default_descr: 再怎么看我也不知道怎么描述它的啦！
   swiper:
-    # 打开后：首页顶部变成「文章轮播 + 右侧 4 篇推荐」，最多取 4 篇。
-    # 文章可在 front-matter 里用 swiper_index / top_group_index 指定排序，
-    # 没指定的会用最新文章自动补足到 4 篇。
+    # 关闭后：首页顶部变成「普通文章卡片 ×6 + 推荐卡」，也就是下面的 banner。
+    # 打开后：变成「文章轮播 + 右侧 4 篇推荐」，最多取 4 篇，
+    #        文章可用 front-matter 里的 swiper_index / top_group_index 指定排序，
+    #        没指定的会用最新文章自动补足。
     #
-    # ⚠️ 打开轮播的同时会**自动去掉**下面的 banner（新品主题）卡片 ——
-    # 主题模板里那个卡片只在 swiper 关闭的 else 分支才渲染。
-    enable: true
+    # 关掉的原因：站里文章还少，轮播只有 2 条，空转的观感比静态卡片差。
+    # 等文章多起来再打开，改这一行即可（下面的 banner 会自动让位）。
+    enable: false
     swiper_css: https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css #swiper css依赖
     swiper_js: https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.js #swiper js依赖
   # banner：只在 swiper.enable 为 false 时渲染的「推荐卡」。
   # 原来的内容是主题作者的推广（新品主题 / Theme-AnZhiYu），已换成中性占位。
   # 注意这几个键不能直接删 —— 本文件与主题配置深合并，删掉会被主题默认值填回来。
+  # 图片换成了封面尺寸的小图（57 KB），不再用 404 背景那张 1920x1080 的大图。
   banner:
     tips: 推荐
     title: 精选阅读
-    image: /img/mine/mascaloona-bliss.jpg
+    image: /img/photos/cover-05-mascaloona.jpg
     link: /archives/
 
 # 朋友圈配置
@@ -1395,6 +1397,20 @@ CDN:
   custom_format: # https://npm.elemecdn.com/${name}@latest/${file}
 
   option:
+    # ================= Twikoo 前端版本对齐 =================
+    # 主题的 plugins.yml 把 Twikoo 前端锁在 1.6.44，而我们的后端是 2.0.13，
+    # 差了一个大版本。实测后果：
+    #   COMMENT_COUNT  -> {"code":1001,"message":"请更新 Twikoo 云函数至最新版本"}  ✗
+    #   COMMENT_LIKE   -> {"code":0,"updated":1}                                   ✓
+    # 也就是说「评论数」这个功能是坏的（文章卡片和文章页顶部的评论数永远出不来），
+    # 点赞本身正常。根因是版本错配。
+    #
+    # 修法：主题的 scripts/events/cdn.js 把 CDN.option 直接 Object.assign 进资源表，
+    # 所以这里覆盖同名键即可，不需要改主题子模块（改了会在升级时丢）。
+    # 已确认 cdn.cbd.int 上 2.0.13 的 twikoo.all.min.js 返回 200。
+    # 若以后升级后端，把这个版本号一起改。
+    twikoo: https://cdn.cbd.int/twikoo@2.0.13/dist/twikoo.all.min.js
+
     # main_css:
     # main:
     # utils:
@@ -1413,7 +1429,6 @@ CDN:
     # pjax:
     # blueimp_md5:
     # valine:
-    # twikoo:
     # waline_js:
     # waline_css:
     # sharejs:
