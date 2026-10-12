@@ -199,7 +199,7 @@ post_meta:
     tags: true # true or false 主页是否显示标籤
     label: false # true or false 显示描述性文字
   post:
-    date_type: both # created or updated or both 文章页日期是创建日或者更新日或都显示
+    date_type: created # created or updated or both 文章页日期是创建日或者更新日或都显示
     date_format: date # date/relative 显示日期还是相对日期
     categories: true # true or false 文章页是否显示分类
     tags: true # true or false 文章页是否显示标籤
@@ -1098,14 +1098,23 @@ home_top:
       icon: anzhiyu-icon-box-archive
   default_descr: 再怎么看我也不知道怎么描述它的啦！
   swiper:
-    enable: false
+    # 打开后：首页顶部变成「文章轮播 + 右侧 4 篇推荐」，最多取 4 篇。
+    # 文章可在 front-matter 里用 swiper_index / top_group_index 指定排序，
+    # 没指定的会用最新文章自动补足到 4 篇。
+    #
+    # ⚠️ 打开轮播的同时会**自动去掉**下面的 banner（新品主题）卡片 ——
+    # 主题模板里那个卡片只在 swiper 关闭的 else 分支才渲染。
+    enable: true
     swiper_css: https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css #swiper css依赖
     swiper_js: https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.js #swiper js依赖
+  # banner：只在 swiper.enable 为 false 时渲染的「推荐卡」。
+  # 原来的内容是主题作者的推广（新品主题 / Theme-AnZhiYu），已换成中性占位。
+  # 注意这几个键不能直接删 —— 本文件与主题配置深合并，删掉会被主题默认值填回来。
   banner:
-    tips: 新品主题
-    title: Theme-AnZhiYu
-    image: https://bu.dusays.com/2023/05/13/645fa3cf90d70.webp
-    link: https://docs.anheyu.com/
+    tips: 推荐
+    title: 精选阅读
+    image: /img/mine/mascaloona-bliss.jpg
+    link: /archives/
 
 # 朋友圈配置
 friends_vue:

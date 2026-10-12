@@ -16,8 +16,9 @@
   /* ============================ 配置区（改这里） ============================ */
 
   var CONFIG = {
-    // 博主所在地坐标 —— 用于计算「距博主约 N 公里」。请改成你自己的位置。
-    owner: { name: '承德市', lat: 40.9515, lng: 117.9634 },
+    // 博主所在地坐标 —— 用于计算「距博主约 N 公里」。
+    // 长沙，与 _config.anzhiyu.yml 里 post_copyright.location 保持一致。
+    owner: { name: '长沙', lat: 28.2282, lng: 112.9388 },
 
     // 天气接口：同源代理（Vercel 云函数 api/weather.js → uapis.cn/misc/weather）。
     // uapis.cn 禁止浏览器跨域（403 CORS_FORBIDDEN），只能服务端调用，所以必须经代理。
