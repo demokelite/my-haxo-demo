@@ -1,0 +1,81 @@
+name: 定时发布
+
+# 为什么需要这个工作流：
+#   Hexo 的 future: false 只能让"日期还没到"的文章不参与构建，
+#   它不会自己到点上线 —— 静态站点没有定时器。
+#   真正让文章出现的是到点之后的一次重新构建，这里负责触发它。
+#
+# 原理：
+#   1. 跑 tools/scheduled-publish.js，它先算出哪些文章已经到时间，
+#      再逐个去线上确认 URL 是否已经能访问（已经能访问就什么都不做，天然幂等）
+#   2. 只有当确实有文章到点却打不开时，才推一个空提交
+#   3. Vercel 监测到 push，自动重新构建，文章就上线了
+#
+# 为什么用空提交而不是 Vercel Deploy Hook：
+#   Deploy Hook 需要把 URL 存成仓库密钥，多一步人工配置，
+#   而且那个 URL 一旦泄漏任何人都能触发构建。空提交只用仓库自带的
+#   GITHUB_TOKEN，不需要任何额外配置。
+#
+# ⚠️ 精度：GitHub 的 schedule 不保证准点，负载高时可能晚几分钟到几十分钟。
+#    这里在 10:00 / 10:10 / 10:20 各试一次，是为了让"10 点发布"尽量贴近 10 点。
+#    要做到秒级精确需要常驻调度服务，对个人博客不值当。
+
+on:
+  schedule:
+    # 北京时间 10:00 / 10:10 / 10:20（UTC = 北京时间 - 8）
+    - cron: '0 2 * * *'
+    - cron: '10 2 * * *'
+    - cron: '20 2 * * *'
+  # 也可以在 Actions 页面手动点一下立刻检查
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # 三次 cron 可能撞在一起，串行化避免同时推两个提交
+  group: scheduled-publish
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 检查有没有到点但还没上线的文章
+        id: check
+        run: |
+          set +e
+          OUTPUT=$(node tools/scheduled-publish.js 2>&1)
+          CODE=$?
+          set -e
+          echo "$OUTPUT"
+          PUBLISH=$(echo "$OUTPUT" | grep -E '^publish=' | tail -1 | cut -d= -f2)
+          echo "publish=${PUBLISH:-no}" >> "$GITHUB_OUTPUT"
+          if [ "$CODE" != "0" ]; then
+            echo "::warning::检查脚本返回了非零退出码，本次不触发重建"
+          fi
+
+      - name: 触发重建
+        if: steps.check.outputs.publish == 'yes'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: 定时重建，发布到点文章"
+
+          # 仓库可能有别的提交先进来（比如 Pages CMS），推之前先变基
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: 结果
+        run: |
+          if [ "${{ steps.check.outputs.publish }}" = "yes" ]; then
+            echo "已推空提交，Vercel 将重新构建"
+          else
+            echo "无需重建"
+          fi
