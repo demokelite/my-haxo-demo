@@ -74,6 +74,18 @@ content:
     path: _config.yml
     format: code
 
+  - name: site-info-form
+    label: ★ 站点信息填写清单
+    type: file
+    path: docs/site-info-form.md
+    format: code
+
+  - name: about-data
+    label: 关于页数据 about.yml
+    type: file
+    path: source/_data/about.yml
+    format: code
+
   # ==================== 数据文件 ====================
   - name: friend-links
     label: 友链数据 link.yml

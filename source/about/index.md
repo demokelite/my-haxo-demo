@@ -1,5 +1,10 @@
 ---
 title: 关于本人
+date: 2026-10-12 20:00:00
+aside: false
+top_img: false
+comments: false
+type: "about"
 ---
 
 一个普通的计算机学习者，喜欢把想法做成能真正跑起来的东西。
