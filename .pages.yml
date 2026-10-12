@@ -99,6 +99,12 @@ content:
     path: source/_data/album.yml
     format: code
 
+  - name: skills-data
+    label: 技能图标 creativity.yml
+    type: file
+    path: source/_data/creativity.yml
+    format: code
+
   # ==================== 独立页面 ====================
   - name: pages
     label: 独立页面

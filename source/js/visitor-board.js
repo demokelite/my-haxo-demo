@@ -49,15 +49,32 @@
     // 结果缓存时长，避免每次 PJAX 跳转都重新发请求
     cacheTTL: 30 * 60 * 1000,
 
-    // 按小时轮换的那句话
+    // 按小时轮换的那句话。
+    // statusList 用于工作日，weekendList 用于周六周日 ——
+    // 周末还说「即将下班」很怪，所以单独一套。
+    // 两套的 end 都必须递增，最后一项要能兜住 23 点。
     statusList: [
       { end: 5,  text: '凌晨了，还没睡吗？早点休息~' },
-      { end: 8,  text: '早高峰，路上小心~' },
+      { end: 7,  text: '天快亮了，再睡一会儿吧~' },
+      { end: 9,  text: '早高峰，路上小心~' },
       { end: 11, text: '上午好，正在搬砖中~' },
       { end: 13, text: '午休时间，记得好好吃饭~' },
+      { end: 15, text: '下午刚开始，先做最难的那件事~' },
       { end: 17, text: '下午茶时间，来杯咖啡提提神？' },
       { end: 19, text: '即将下班，记得按时吃饭~' },
+      { end: 21, text: '晚上好，别把工作带回家~' },
       { end: 23, text: '夜深了，在属于自己的时间好好放松~' }
+    ],
+
+    weekendList: [
+      { end: 5,  text: '凌晨了，周末也别熬太狠~' },
+      { end: 9,  text: '周末的早晨，睡到自然醒最好~' },
+      { end: 12, text: '上午好，今天打算做点什么？' },
+      { end: 14, text: '午饭时间，吃点好的~' },
+      { end: 17, text: '下午了，出门走走？' },
+      { end: 19, text: '傍晚了，天色正好~' },
+      { end: 22, text: '晚上好，慢慢过~' },
+      { end: 23, text: '夜深了，明天还要上班呢~' }
     ]
   };
 
@@ -398,11 +415,29 @@
   }
 
   function statusText() {
-    var h = new Date().getHours();
-    for (var i = 0; i < CONFIG.statusList.length; i++) {
-      if (h <= CONFIG.statusList[i].end) return CONFIG.statusList[i].text;
+    var now = new Date();
+    var h = now.getHours();
+    var day = now.getDay();               // 0 = 周日，6 = 周六
+    var isWeekend = (day === 0 || day === 6);
+    var list = (isWeekend && CONFIG.weekendList && CONFIG.weekendList.length)
+      ? CONFIG.weekendList
+      : CONFIG.statusList;
+    for (var i = 0; i < list.length; i++) {
+      if (h <= list[i].end) return list[i].text;
     }
-    return CONFIG.statusList[CONFIG.statusList.length - 1].text;
+    return list[list.length - 1].text;
+  }
+
+  // 页面开着不动时，跨过整点也要把文案换掉。
+  // 每分钟查一次，只有真的变了才改 DOM，避免无谓的重排。
+  function watchStatusText() {
+    var last = null;
+    setInterval(function () {
+      var el = document.querySelector('.vb-status-text');
+      if (!el) return;
+      var next = statusText();
+      if (next !== last) { el.textContent = next; last = next; }
+    }, 60 * 1000);
   }
 
   /* ============================== 渲染 ============================== */
@@ -528,4 +563,7 @@
   }
   // 主题用 PJAX 局部刷新，content 会被整体替换，需要重新挂载
   document.addEventListener('pjax:complete', mount);
+
+  // 定时器只装一次（PJAX 跳转时不能重复叠加）
+  watchStatusText();
 })();
