@@ -502,7 +502,11 @@
       var wt = esc(weather.weather) + (weather.temperature !== '' && weather.temperature !== undefined
         ? ' <span class="vb-temp">' + esc(weather.temperature) + '°C</span>' : '');
       parts.push(wt);
-      var extra = [weather.windDirection, weather.windPower,
+      // ⚠️ 这一行里的每个值都必须过 esc()。
+      // windDirection / windPower 原来是裸的 —— 它们直接来自第三方天气接口，
+      // 一旦返回的内容里带标签就会被当 HTML 执行。虽然要控制那家接口才能触发，
+      // 但转义的成本是零，没有任何理由留这个口子。
+      var extra = [esc(weather.windDirection), esc(weather.windPower),
         weather.humidity !== '' && weather.humidity !== undefined ? '湿度 ' + esc(weather.humidity) + '%' : ''
       ].filter(Boolean).join(' · ');
       if (extra) parts.push('<span class="vb-sub">' + extra + '</span>');

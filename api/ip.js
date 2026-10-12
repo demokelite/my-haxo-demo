@@ -22,6 +22,37 @@
 
 const IPINFO = 'https://uapis.cn/api/v1/network/ipinfo';
 
+/**
+ * 校验一个字符串是否是合法的 IP。
+ *
+ * ⚠️ 为什么必须校验：这个函数不带鉴权，任何人都能调。
+ * 不校验的话，任何人都能拿它当免费的 IP 归属地查询代理用，
+ * 上游接口的额度会被别人刷掉。而且上游是按 IP 查询的，
+ * 除了 IP 本身没有任何合法输入。
+ */
+function isIpv4(s) {
+  if (!/^(\d{1,3}\.){3}\d{1,3}$/.test(s)) return false;
+  return s.split('.').every(function (n) {
+    if (n.length > 1 && n.charAt(0) === '0') return false; // 前导零不是合法写法
+    return Number(n) <= 255;
+  });
+}
+
+function isIpv6(s) {
+  // 宽松校验：只允许十六进制和冒号，且至少两个冒号段，长度合规即可。
+  // 严格解析 IPv6 没必要，上游自己会再判断一次。
+  if (s.indexOf(':') === -1) return false;
+  if (!/^[0-9a-fA-F:]+$/.test(s)) return false;
+  return s.split(':').length >= 3;
+}
+
+function isValidIp(s) {
+  if (typeof s !== 'string') return false;
+  var v = s.trim();
+  if (v.length < 3 || v.length > 45) return false; // IPv6 最长 45 字符
+  return isIpv4(v) || isIpv6(v);
+}
+
 function clientIp(req) {
   const headers = req.headers || {};
   const raw = headers['x-forwarded-for'] || headers['x-real-ip'] || headers['cf-connecting-ip'] || '';
@@ -35,6 +66,11 @@ module.exports = async (req, res) => {
 
   if (!ip) {
     res.status(400).json({ error: '无法确定访客 IP（请求里没有 x-forwarded-for）' });
+    return;
+  }
+
+  if (!isValidIp(ip)) {
+    res.status(400).json({ error: 'invalid ip: 只接受合法的 IPv4 或 IPv6 地址' });
     return;
   }
 
