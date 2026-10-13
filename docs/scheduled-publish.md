@@ -39,7 +39,8 @@ future: false
 [`.github/workflows/scheduled-publish.yml`](../.github/workflows/scheduled-publish.yml)。
 
 ```
-每天北京时间 10:00 / 10:10 / 10:20 各跑一次
+每天北京时间 10:07 / 10:17 / 10:27 各跑一次
+外加每小时第 37 分兜底一次
         ↓
 运行 tools/scheduled-publish.js
         ↓
@@ -52,12 +53,38 @@ future: false
    Vercel 监测到 push，自动重新构建，文章上线
 ```
 
-### 为什么跑三次
+### 为什么是这几个时间点（踩过的坑）
 
-GitHub 的 `schedule` **不保证准点**，负载高时可能晚几分钟到几十分钟。
-在 10:00 / 10:10 / 10:20 各试一次，是为了让「10 点发布」尽量贴近 10 点。
+**2026-10-13 那天定时任务一次都没跑，文章晚了 1 小时 44 分才上线。**
 
-要做到秒级精确需要常驻调度服务，对个人博客不划算。
+最初设的是 `0 2` / `10 2` / `20 2`（北京时间 10:00 / 10:10 / 10:20）。
+GitHub Actions 接口显示该 workflow `state=active`，但运行记录是 **0 条**。
+
+原因写在 GitHub 官方文档里：
+
+> The `schedule` event can be delayed during periods of high loads of GitHub
+> Actions workflow runs. **High load times include the start of every hour.**
+> If the load is sufficiently high enough, **some queued jobs may be dropped.**
+
+注意最后半句：不是「延迟」，而是**直接丢弃**。整点正是高负载时段。
+
+所以现在改成两段：
+
+| cron | 北京时间 | 作用 |
+| --- | --- | --- |
+| `7,17,27 2 * * *` | 10:07 / 10:17 / 10:27 | 贴近 10 点发布，分钟数刻意避开整点 |
+| `37 * * * *` | 每小时第 37 分 | 兜底：哪怕上面三次被丢掉，一小时内也会补上 |
+
+多跑几次没有代价，因为脚本是幂等的 —— 已经能访问的文章不会触发重建。
+
+### ⚠️ 如果又没按时发布
+
+GitHub 的调度终究是「尽力而为」，给不了保证。真的在意时间的话，两个补救办法：
+
+1. 到点后去 **Actions → 定时发布 → Run workflow** 手动点一次，立刻生效
+2. 本地 `git commit --allow-empty -m "触发重建" && git push`，效果一样
+
+2026-10-13 那次就是用第 2 种办法补发的。
 
 ### 为什么去线上确认，而不是只看日期
 
