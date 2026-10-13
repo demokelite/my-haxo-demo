@@ -176,3 +176,28 @@ content:
           - name: body
             label: 正文
             type: rich-text
+      - name: page-cookies
+        label: Cookies 政策
+        type: file
+        path: source/cookies/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+
+      - name: page-copyright
+        label: 版权协议
+        type: file
+        path: source/copyright/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
