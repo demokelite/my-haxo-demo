@@ -1345,6 +1345,8 @@ inject:
     - <link rel="stylesheet" href="/css/visitor-board.css">
     # 站点级样式修正（赞赏码防变形等）
     - <link rel="stylesheet" href="/css/site-fixes.css">
+    # 侧边栏日历卡片样式
+    - <link rel="stylesheet" href="/css/sidebar-calendar.css">
     # iOS「添加到主屏幕」时用的图标。
     # 主题只输出 rel="shortcut icon"，不管 apple-touch-icon，
     # 所以这个文件原先是个没人引用的死文件（占 106 KB）。这里让它真正生效。
@@ -1365,6 +1367,11 @@ inject:
     # 顺便把主题写死的 twitter:card=summary 升级成 summary_large_image。
     # 详见 source/js/seo-structured-data.js
     - <script defer src="/js/seo-structured-data.js"></script>
+
+    # ================= 侧边栏日历 =================
+    # 月视图，今天高亮，有文章的日子标点并可点击进入。
+    # 文章数据来自 /calendar-posts.json，由 scripts/calendar-posts.js 生成。
+    - <script defer src="/js/sidebar-calendar.js"></script>
 
     # ================= 访客小板报 =================
     # 归属地 / 距离 / IP / 天气。逻辑与可配置项都在 source/js/visitor-board.js 顶部

@@ -1,0 +1,145 @@
+/*!
+ * 侧边栏日历卡片样式
+ *
+ * 配色全部走主题的 CSS 变量，跟着深浅色模式自动变；
+ * 变量取不到时用兜底值，所以这份样式单独拿出来也不会难看。
+ */
+
+#sidebar-calendar .sc-body {
+  padding: 2px 2px 0;
+}
+
+/* ============================ 月份切换 ============================ */
+
+#sidebar-calendar .sc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+#sidebar-calendar .sc-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--anzhiyu-fontcolor, #333);
+}
+
+#sidebar-calendar .sc-nav {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1;
+  background: var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.14));
+  color: var(--anzhiyu-fontcolor, #333);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#sidebar-calendar .sc-nav:hover {
+  background: var(--anzhiyu-main, #425aef);
+  color: #fff;
+}
+
+/* ============================ 网格 ============================ */
+
+#sidebar-calendar .sc-week,
+#sidebar-calendar .sc-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+#sidebar-calendar .sc-week {
+  margin-bottom: 4px;
+}
+
+#sidebar-calendar .sc-week span {
+  text-align: center;
+  font-size: 11px;
+  opacity: 0.5;
+  padding: 2px 0;
+}
+
+#sidebar-calendar .sc-day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--anzhiyu-fontcolor, #333);
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+#sidebar-calendar .sc-empty {
+  visibility: hidden;
+}
+
+/* ============================ 状态 ============================ */
+
+/* 今天 */
+#sidebar-calendar .sc-today {
+  background: var(--anzhiyu-main, #425aef);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 有文章的日子：加一个小圆点，并且可以点进去 */
+#sidebar-calendar .sc-has-post {
+  font-weight: 600;
+  color: var(--anzhiyu-main, #425aef);
+  background: var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.14));
+}
+
+#sidebar-calendar .sc-has-post::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+#sidebar-calendar .sc-has-post:hover {
+  background: var(--anzhiyu-main, #425aef);
+  color: #fff;
+}
+
+/* 今天又恰好有文章：保持主色底，白字 */
+#sidebar-calendar .sc-today.sc-has-post {
+  background: var(--anzhiyu-main, #425aef);
+  color: #fff;
+}
+
+/* ============================ 底部说明 ============================ */
+
+#sidebar-calendar .sc-foot {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.16));
+  font-size: 11px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+/* 窄屏下格子更紧凑一点 */
+@media screen and (max-width: 768px) {
+  #sidebar-calendar .sc-day {
+    font-size: 11px;
+    border-radius: 4px;
+  }
+  #sidebar-calendar .sc-nav {
+    width: 22px;
+    height: 22px;
+  }
+}
