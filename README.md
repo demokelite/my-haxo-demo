@@ -283,6 +283,7 @@ module.exports = vercel.default ?? vercel;
 - `docs/photo-credits.md`：所有配图的来源与作者。
 - `docs/theme-config-checklist.md`：主题配置清单，列出 208 个开关的当前状态。
 - `docs/security.md`：安全处理与复查命令（响应头、输入校验、凭据扫描）。
+- `docs/benchmark-checklist.md`：对标 blog.lololowe.com 的完善清单，逐项标了成本，待决定。
 
 ## 许可
 
