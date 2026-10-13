@@ -19,11 +19,34 @@
     //   koharu / rem / kobayaxi / cat-* / chino / umaru / Pio / tia / uni → model.json
     // 全部模型目录见 https://model.hacxy.cn/ ，加新模型前先点进目录确认入口文件名。
     //
+    // ⚠️⚠️ 另一条更容易踩的坑：**MOC3 格式的版本号必须 ≥ 3**。
+    //   l2d-widget 用的是 Cubism 5 核心库，里面有一道一致性检查：
+    //       if (!hasMocConsistency(buffer)) -> "Inconsistent MOC3." -> 直接拒绝加载
+    //   而它对 **MOC3 v1 和 v2 会判定为不一致**，模型怎么都出不来，控制台只留一行
+    //   "Inconsistent MOC3."，很容易误以为是网络问题。
+    //
+    //   实测（2026-10-13）：
+    //     Haru.moc3      MOC3 v1  ★ 加载失败 ← 最初列表里的第 3 个就是它
+    //     Wanko.moc3     MOC3 v1  ★
+    //     Natori.moc3    MOC3 v1  ★
+    //     abeikelongbi_3 MOC3 v2  ★
+    //     Rice.moc3      MOC3 v3  ✓
+    //     Mark.moc3      MOC3 v3  ✓
+    //     Mao.moc3       MOC3 v5  ✓
+    //     Ren.moc3       MOC3 v6  ✓
+    //   注意 **Cubism 2 格式（.moc）不受这条限制** —— 它走的是另一套运行时，
+    //   所以列表里那些 Cubism 2 模型（shizuku / rem / z16 等）一直都能用。
+    //
+    //   加模型前先查版本，第 5 个字节就是版本号：
+    //     curl -sL <moc地址> | head -c 5 | xxd | head -1
+    //   MOC3 的魔数是 "MOC3"，紧跟的那个字节就是版本；若是 "moc\0" 则是 Cubism 2。
+    //
     // 传多个模型时，页面上会自动出现「切换模型」按钮，可以直接点击切换。
     models: [
       { path: 'https://model.hacxy.cn/shizuku/shizuku.model.json' },   // 雫，最经典的 Live2D 模型
       { path: 'https://model.hacxy.cn/koharu/model.json' },            // 小春
-      { path: 'https://model.hacxy.cn/Haru/Haru.model3.json' },        // Haru
+      // 第 3 个原来是 Haru，MOC3 v1 加载不出来，换成 Mark（同为 MOC3 但版本是 v3，能用）
+      { path: 'https://model.hacxy.cn/Mark/Mark.model3.json' },        // Mark
       { path: 'https://model.hacxy.cn/Hiyori/Hiyori.model3.json' },    // 日和
       { path: 'https://model.hacxy.cn/Mao/Mao.model3.json' },          // Mao
       { path: 'https://model.hacxy.cn/z16/z16.model.json' },           // Z16
