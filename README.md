@@ -282,7 +282,7 @@ module.exports = vercel.default ?? vercel;
 - `docs/deploy-comments.md`：评论区（Twikoo）部署完整步骤与排查方法。
 - `docs/photo-credits.md`：所有配图的来源与作者。
 - `docs/theme-config-checklist.md`：主题配置清单，列出 208 个开关的当前状态。
-- `docs/image-replacement-and-status.md`：图片清单与格式尺寸建议（部分内容已被上文取代）。
+- `docs/security.md`：安全处理与复查命令（响应头、输入校验、凭据扫描）。
 
 ## 许可
 

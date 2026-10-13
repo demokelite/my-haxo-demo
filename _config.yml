@@ -51,16 +51,10 @@ filename_case: 0
 render_drafts: false
 post_asset_folder: false
 relative_link: false
-# 定时发布的关键开关。
-# true  = 日期在未来的文章也会立刻生成（做不到"定时"，日期只是个显示值）
-# false = 日期还没到的文章不生成，到点之后**重新构建一次**才会出现
-#
-# ⚠️ 静态站点没有真正的定时器。设成 false 只是让文章"够资格"被生成，
-#    真正让它出现的是到点之后的那次构建。
-#    本项目用 .github/workflows/scheduled-publish.yml 每天定时触发，
-#    它先检查文章是否已上线，没上线才推一个空提交去触发 Vercel 重建。
-#    详见 docs/scheduled-publish.md
-future: false
+# 日期在未来的文章也照常生成，日期只作为显示值。
+# （曾用过 future: false + GitHub Actions 定时重建做定时发布，2026-10-13 因
+#   GitHub 丢弃了整点的 cron 而漏发，作者决定不折腾了，已整体移除。）
+future: true
 syntax_highlighter: highlight.js
 highlight:
   line_number: true

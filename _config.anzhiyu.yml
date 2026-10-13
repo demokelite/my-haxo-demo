@@ -1330,6 +1330,11 @@ inject:
     - <link rel="stylesheet" href="/css/site-fixes.css">
     # 左下角环境音控件（白噪音）
     - <link rel="stylesheet" href="/css/ambient-player.css">
+    # iOS「添加到主屏幕」时用的图标。
+    # 主题只输出 rel="shortcut icon"，不管 apple-touch-icon，
+    # 所以这个文件原先是个没人引用的死文件（占 106 KB）。这里让它真正生效。
+    # 苹果官方推荐 180x180，这张图就是该尺寸。
+    - <link rel="apple-touch-icon" sizes="180x180" href="/img/mine/apple-touch-icon.png">
 
   bottom:
     # 自定义js
