@@ -158,8 +158,8 @@ Steam      ✍️
 
 ```
 [ ] 不要
-[ ] /cookies/    Cookies 政策
-[ ] /copyright/  版权协议
+[ ] /cookies/    Cookies 政策 需要
+[ ] /copyright/  版权协议  需要
 ```
 
 ---
