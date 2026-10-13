@@ -61,52 +61,56 @@ content:
         label: 正文
         type: rich-text
 
-    # ==================== 草稿 ====================
-    # source/_drafts/ 里的文章不会出现在网站上。
-    # _config.yml 里 render_drafts: false，所以构建时直接跳过，
-    # sitemap、首页、归档都不会有它们。
-    #
-    # 想发布某一篇：把文件从 source/_drafts/ 移到 source/_posts/ 即可
-    # （或者在命令行跑 hexo publish <文件名>）。
-    - name: drafts
-      label: 草稿（不会发布）
-      type: collection
-      path: source/_drafts
-      format: yaml-frontmatter
-      filename:
-        template: "{primary}.md"
-      view:
-        primary: title
-        sort: date
-        order: desc
-        fields: [title, date, tags]
-      fields:
-        - name: title
-          label: 标题
-          type: string
-          required: true
-        - name: date
-          label: 计划发布日期
-          type: date
-          options:
-            time: true
-        - name: categories
-          label: 分类
-          type: string
-          list: true
-        - name: tags
-          label: 标签
-          type: string
-          list: true
-        - name: description
-          label: 摘要
-          type: text
-        - name: cover
-          label: 封面图
-          type: image
-        - name: body
-          label: 正文
-          type: rich-text
+  # ==================== 草稿 ====================
+  # source/_drafts/ 里的文章不会出现在网站上。
+  # _config.yml 里 render_drafts: false，所以构建时直接跳过，
+  # sitemap、首页、归档都不会有它们。
+  #
+  # 想发布某一篇：把文件从 source/_drafts/ 移到 source/_posts/ 即可
+  # （或者在命令行跑 hexo publish <文件名>）。
+  #
+  # ⚠️ 缩进：这一项和上面的 posts 是同级，都挂在 content: 下面，
+  #    所以必须是 2 个空格开头。写成 4 个空格会让整个 .pages.yml 解析失败，
+  #    Pages CMS 直接打不开（站点构建不受影响，因为它不读这个文件）。
+  - name: drafts
+    label: 草稿（不会发布）
+    type: collection
+    path: source/_drafts
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+    view:
+      primary: title
+      sort: date
+      order: desc
+      fields: [title, date, tags]
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 计划发布日期
+        type: date
+        options:
+          time: true
+      - name: categories
+        label: 分类
+        type: string
+        list: true
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: description
+        label: 摘要
+        type: text
+      - name: cover
+        label: 封面图
+        type: image
+      - name: body
+        label: 正文
+        type: rich-text
 
   # ==================== 主题与站点配置 ====================
   - name: theme-config
