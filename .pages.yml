@@ -105,6 +105,21 @@ content:
     path: source/_data/creativity.yml
     format: code
 
+  # ==================== 说说 / 装备的内容 ====================
+  # 用 format: code 而不是 yaml，理由同上：这两个文件里写满了字段说明，
+  # 用 yaml 格式会被 Pages CMS 解析后重新序列化，把所有注释抹掉。
+  - name: essay-data
+    label: ★ 说说内容 essay.yml
+    type: file
+    path: source/_data/essay.yml
+    format: code
+
+  - name: equipment-data
+    label: ★ 装备内容 equipment.yml
+    type: file
+    path: source/_data/equipment.yml
+    format: code
+
   # ==================== 独立页面 ====================
   - name: pages
     label: 独立页面
@@ -153,6 +168,47 @@ content:
         label: 隐私政策
         type: file
         path: source/privacy/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+
+      # 下面三个是新增的，正文只是页面顶部的简介，
+      # 说说和装备的真正内容在 source/_data/ 里，见上面两个 ★ 项
+      - name: page-essay
+        label: 说说（页面简介）
+        type: file
+        path: source/essay/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+
+      - name: page-equipment
+        label: 装备（页面简介）
+        type: file
+        path: source/equipment/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+
+      - name: page-room
+        label: 小房间（页面简介）
+        type: file
+        path: source/room/index.md
         format: yaml-frontmatter
         fields:
           - name: title

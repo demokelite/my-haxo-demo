@@ -1,0 +1,56 @@
+# 说说（短内容）数据文件
+#
+# 用途：给 /essay/ 页面提供数据。适合放不需要写成完整文章的碎片记录 ——
+#       一句话想法、随手拍、今天干了什么。写一条的成本远低于写一篇文章。
+#
+# 在 Pages CMS（https://app.pagescms.org）里可以直接编辑这个文件。
+#
+# ---------------------------------------------------------------------------
+# ⚠️ 字段名不能改，模板是按这些名字取的，改了就不显示：
+#
+# 顶层（可以有多组，一般一组就够）
+#   title            顶部横幅小标签
+#   subTitle         顶部横幅大标题
+#   tips             横幅底部说明
+#   buttonText       横幅按钮文字（不要按钮就留空）
+#   buttonLink       横幅按钮链接
+#   top_background   横幅背景图路径，如 /img/photos/bg-01-railway.jpg
+#   limit            ★ 必填。只展示最近多少条。漏了会一条都不显示
+#   essay_list       短文列表
+#
+# essay_list 里每一条
+#   content          ★ 必填。正文
+#                    注意：内容里**不要出现英文单引号 '**，模板把它拼进 JS 会出错
+#   date             ★ 必填。格式 2026-10-13 20:30:00。漏了模板会抛异常
+#   image            图片路径列表（可选，可多张）
+#   video            视频地址列表（可选，B 站 iframe 地址会自动适配）
+#   link             附带的链接（可选）
+#   from             来源（可选，显示成火焰图标 + 文字）
+#   address          地点（可选，显示成定位图标 + 文字）
+#   aplayer          音乐卡片（可选）：aplayer: {id: 歌曲ID, server: netease}
+# ---------------------------------------------------------------------------
+#
+# 下面是可用结构，填好内容后把前面的 # 去掉。
+# essay_list 目前为空，所以页面上只会显示横幅，不会有短文 —— 这是正常的。
+
+- title: 随便说说
+  subTitle: 一些没写成文章的话
+  tips: 短的想法、随手拍、今天干了什么
+  buttonText: 看看关于我
+  buttonLink: /about/
+  top_background: /img/photos/bg-01-railway.jpg
+  limit: 20
+  essay_list: []
+
+# 填内容的写法示例（复制到 essay_list 下面，注意缩进）：
+#
+#  essay_list:
+#    - content: 今天把博客的安全响应头补齐了，第一次认真看 CSP 的文档。
+#      date: 2026-10-13 21:30:00
+#      image:
+#        - /img/photos/album-01-foggy-beach.jpg
+#      address: 承德
+#
+#    - content: 路过一家书店，进去待了一下午，什么都没买。
+#      date: 2026-10-12 18:00:00
+#      from: 随手记
