@@ -12,9 +12,13 @@ menu:
     相册集: /album/ || anzhiyu-icon-images
     # 图标名要从主题图标集里选，写错不会报错，只是不显示图标。
     # 可用名字共 135 个，来自 https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css
-    说说: /essay/ || anzhiyu-icon-lightbulb
-    装备: /equipment/ || anzhiyu-icon-cube
     小房间: /room/ || anzhiyu-icon-house-chimney
+    # 说说 和 装备 两个页面暂时撤掉了：
+    # 它们的模板要求先有 source/_data/essay.yml / equipment.yml，
+    # 没有数据文件会渲染成空白页，不如先不挂出来。
+    # 内容准备好之后恢复这两行即可：
+    #   说说: /essay/ || anzhiyu-icon-lightbulb
+    #   装备: /equipment/ || anzhiyu-icon-cube
     # 音乐馆暂时注释掉：歌单还没配。
     # 原来这里指向 nav_music.id，而那个值是主题作者的网易云歌单，
     # 等于让访客的站点播放陌生人的音乐，已经清空。
