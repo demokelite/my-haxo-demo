@@ -10,8 +10,10 @@ menu:
 
   我的:
     相册集: /album/ || anzhiyu-icon-images
-    # 图标名要从主题图标集里选，写错不会报错，只是不显示图标。
-    # 可用名字共 135 个，来自 https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css
+    工具库: /tools/ || anzhiyu-icon-gear
+    # 图标名要从主题图标集里选，写错不会报错，只是不显示图标 —— 很难发现。
+    # 可用名字共 135 个，加新项前先核对：
+    #   curl -s https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css | grep -o 'anzhiyu-icon-[a-z0-9-]*' | sort -u
     小房间: /room/ || anzhiyu-icon-house-chimney
     # 说说 和 装备 两个页面暂时撤掉了：
     # 它们的模板要求先有 source/_data/essay.yml / equipment.yml，
@@ -1343,8 +1345,6 @@ inject:
     - <link rel="stylesheet" href="/css/visitor-board.css">
     # 站点级样式修正（赞赏码防变形等）
     - <link rel="stylesheet" href="/css/site-fixes.css">
-    # 左下角环境音控件（白噪音）
-    - <link rel="stylesheet" href="/css/ambient-player.css">
     # iOS「添加到主屏幕」时用的图标。
     # 主题只输出 rel="shortcut icon"，不管 apple-touch-icon，
     # 所以这个文件原先是个没人引用的死文件（占 106 KB）。这里让它真正生效。
@@ -1354,13 +1354,6 @@ inject:
   bottom:
     # 自定义js
     # - <script src="/js/xxx"></script>
-
-    # ================= 左下角环境音（白噪音） =================
-    # 类似 asoftmurmur.com：白/粉/褐噪音 + 雨声/风声/海浪/篝火，各自一个音量条。
-    # 音频全部用 Web Audio **现场合成**，不加载任何音频文件（无版权问题、无外链依赖）。
-    # 不做自动播放，第一次点击按钮才创建 AudioContext。
-    # 音色列表与参数在 source/js/ambient-player.js 顶部的 SOUNDS 里改。
-    - <script defer src="/js/ambient-player.js"></script>
 
     # ================= 文章底部工具栏 =================
     # 主题自带的微博分享已关掉（ptool.share_weibo: false），

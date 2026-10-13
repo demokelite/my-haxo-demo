@@ -176,6 +176,18 @@ content:
           - name: body
             label: 正文
             type: rich-text
+      - name: page-tools
+        label: 工具库
+        type: file
+        path: source/tools/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
       - name: page-cookies
         label: Cookies 政策
         type: file
