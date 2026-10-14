@@ -49,6 +49,14 @@
       - EDU,计算机相关专业
     img: /img/photos/bg-04-anchor-wall.jpg
 
+  # ⚠️ 这一段目前是**死配置，不会有任何效果**。
+  #    看模板 themes/anzhiyu/layout/includes/page/about.pug 才发现，
+  #    整张「文章隧道」卡的外层条件是：
+  #        if theme.LA.enable || theme.umami.enable
+  #    也就是说**必须先开启 51.la 或 Umami 统计**，这张卡才会渲染。
+  #    本站在 _config.anzhiyu.yml 里两个都是 false（不想引入第三方统计），
+  #    所以下面三个字段写了也不会出现在页面上 —— 之前我在注释里把它当成有效字段了，是错的。
+  #    哪天接了统计，这段会自动生效，图片路径是好的。
   statistic:
     link: /archives
     text: 文章隧道
@@ -59,7 +67,7 @@
     title: 我现在住在
     StrengthenTitle: 中国，承德
     background: /img/photos/bg-02-misty-coast.jpg
-    backgroundDark: /img/photos/bg-03-frost-field.jpg
+    backgroundDark: /img/mine/about-location.jpg
 
   # ⚠️ 下面这三行原本是「生于 2002 / 某大学 / 大三学生」这种格式。
   # 按你的要求不暴露真实信息，改成了非身份类的描述。想改随意。
@@ -78,7 +86,7 @@
     author_name: 知识混子
     personality_type: INFJ-A
     photo_url: /img/mine/avatar.jpg
-    personality_img: /img/mine/404-bg.jpg
+    personality_img: /img/mine/about-personality.jpg
     name_url: https://github.com/demokelite
 
   maxim:
@@ -108,7 +116,7 @@
   like:
     like_tips: 关注偏好
     like_title: 数码科技
-    like_bg: /img/photos/bg-01-railway.jpg
+    like_bg: /img/mine/about-like.jpg
     like_bottom: 手机、电脑软硬件
 
   music:

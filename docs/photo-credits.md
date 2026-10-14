@@ -99,3 +99,31 @@ powershell -ExecutionPolicy Bypass -File tools/fetch-covers.ps1 -Count 20 -Start
 > **踩过的坑**：`.ps1` 文件必须存成**带 BOM 的 UTF-8**。
 > Windows PowerShell 5.1 在无 BOM 时按 GBK 读，中文全变乱码、脚本直接语法错误。
 > 用 `pwsh` 7 没这个问题，但脚本要给别人用就不能假设对方是 7。
+
+---
+
+## 关于页的三张配图（后来换的）
+
+原来这三张卡片用的是凑数的图，2026-10-14 换掉了：
+
+| 文件 | 用在哪张卡 | 原来是什么 | 作者 | 原图 |
+| --- | --- | --- | --- | --- |
+| `about-personality.jpg` | 性格（INFJ-A） | **404 页的背景图**（浅灰像素恐龙） | Dorothy Lin | [unsplash](https://unsplash.com/photos/OokBLPrkCNk) |
+| `about-like.jpg` | 关注偏好（数码科技） | 工业铁轨照，和「数码」对不上 | Vadim Sherbakov | [unsplash](https://unsplash.com/photos/Hi9GSwWkCJk) |
+| `about-location.jpg` | 所在地（中国，承德） | 结霜草地特写，和地点无关 | Romain Briaux | [unsplash](https://unsplash.com/photos/yD3PXDV7Sjc) |
+
+三张都是 **Unsplash 授权**（经 Picsum 分发），和站里其它照片同一套许可，可免费使用。
+
+选图过程：从 Picsum 的 200 张里均匀抽 40 张拼成带编号的联系表，
+交给支持图像的模型按「和卡片内容贴不贴、气质安不安静」筛的。
+它当时明确说了两件事，都记下来：
+
+- **所在地那张是退而求其次** —— 40 张里没有明确的中国地标，它选了张雾中山谷，
+  读起来像中国山水，但**不是真的承德**。想换成实拍的话需要自己拍或者找有授权的图。
+- **关注偏好那张也不是代码界面**，只是深灰的桌面俯拍（显示器、键盘、鼠标、眼镜），
+  在这 40 张里是最接近「数码」主题的。
+
+另外两处**看着不对但其实是误判**，一并记下免得以后再查一遍：
+
+- 页面中间那块「Hello there!」大色块**不是图片**，是主题 CSS 画的三个圆加文字
+- 关于页底部那个动漫少女插画**不是页面配图**，是右下角的 Live2D 看板娘
