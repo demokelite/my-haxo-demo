@@ -42,11 +42,28 @@
     //   MOC3 的魔数是 "MOC3"，紧跟的那个字节就是版本；若是 "moc\0" 则是 Cubism 2。
     //
     // 传多个模型时，页面上会自动出现「切换模型」按钮，可以直接点击切换。
+    //
+    // ⚠️ 各模型的下载量差别很大（含贴图，实测）：
+    //     z16       0.23 MB   ✓ 最轻
+    //     cat-white 0.55 MB   ✓
+    //     Mark      0.68 MB   ✓  ← 已按作者要求移除，见下
+    //     koharu    0.71 MB   ✓
+    //     kobayaxi  1.17 MB   △
+    //     rem       3.89 MB   ★ 切过去要等
+    //     Mao       4.12 MB   ★
+    //     Hiyori    4.70 MB   ★
+    //     shizuku   5.53 MB   ★ 最重
+    //   1 Mbps 下切到 shizuku 要等 44 秒，观感上和「加载不出来」很像。
+    //   想让切换快一点，就把轻的放到前面 —— 第一个是默认加载的。
     models: [
       { path: 'https://model.hacxy.cn/shizuku/shizuku.model.json' },   // 雫，最经典的 Live2D 模型
       { path: 'https://model.hacxy.cn/koharu/model.json' },            // 小春
-      // 第 3 个原来是 Haru，MOC3 v1 加载不出来，换成 Mark（同为 MOC3 但版本是 v3，能用）
-      { path: 'https://model.hacxy.cn/Mark/Mark.model3.json' },        // Mark
+      // 第 3 个原来依次是 Haru、Mark，两个作者都反馈有问题，已移除：
+      //   Haru — MOC3 v1，被 Cubism 5 的一致性检查拒绝，根本加载不出来
+      //   Mark — MOC3 v3 版本没问题、体积也只有 0.68 MB（是全列表第二轻的），
+      //          但作者反馈切到它就卡。原因没查明，可能与模型本身有关。
+      //   注意：删掉之后新的第 3 个是 Hiyori，4.70 MB，**比 Mark 重得多**，
+      //        如果卡顿是体积导致的，换到 Hiyori 大概率还会遇到。
       { path: 'https://model.hacxy.cn/Hiyori/Hiyori.model3.json' },    // 日和
       { path: 'https://model.hacxy.cn/Mao/Mao.model3.json' },          // Mao
       { path: 'https://model.hacxy.cn/z16/z16.model.json' },           // Z16
