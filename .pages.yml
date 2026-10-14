@@ -264,3 +264,41 @@ content:
           - name: body
             label: 正文
             type: rich-text
+      - name: page-stats
+        label: 站点统计（页面说明）
+        type: file
+        path: source/stats/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 说明文字
+            type: rich-text
+
+      - name: page-search
+        label: 搜索（页面说明）
+        type: file
+        path: source/search/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 说明文字
+            type: rich-text
+
+      - name: page-subscribe
+        label: 订阅
+        type: file
+        path: source/subscribe/index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text

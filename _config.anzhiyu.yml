@@ -29,6 +29,13 @@ menu:
 
   关于:
     关于本人: /about/ || anzhiyu-icon-paper-plane
+    # 这三个页面的数据都不是手写的：
+    #   /stats/     读构建时生成的 /site-stats.json
+    #   /search/    读主题已有的 /search.json
+    #   /subscribe/ 纯文字页，只写明 RSS 地址
+    站点统计: /stats/ || anzhiyu-icon-square-poll-vertical
+    搜索: /search/ || anzhiyu-icon-magnifying-glass
+    订阅: /subscribe/ || anzhiyu-icon-rss
     随便逛逛: javascript:toRandomPost() || anzhiyu-icon-shoe-prints1
     # 隐私协议 / 版权协议 / Cookies 政策 已经挪到页脚（见本文件 footerBar.linkList）。
     # 这类法规链接按惯例放页脚，不占导航位置。
@@ -1370,6 +1377,8 @@ inject:
     - <link rel="stylesheet" href="/css/site-fixes.css">
     # 侧边栏日历卡片样式
     - <link rel="stylesheet" href="/css/sidebar-calendar.css">
+    # 内页样式（/stats/ 和 /search/）
+    - <link rel="stylesheet" href="/css/inner-pages.css">
     # 左下角帧率计
     - <link rel="stylesheet" href="/css/fps-meter.css">
     # iOS「添加到主屏幕」时用的图标。
@@ -1392,6 +1401,13 @@ inject:
     # 顺便把主题写死的 twitter:card=summary 升级成 summary_large_image。
     # 详见 source/js/seo-structured-data.js
     - <script defer src="/js/seo-structured-data.js"></script>
+
+    # ================= 内页脚本 =================
+    # /stats/ 读 /site-stats.json（由 scripts/site-stats.js 构建时生成）
+    # /search/ 读 /search.json（由 hexo-generator-searchdb 生成）
+    # 两个脚本都会先判断页面元素在不在，不在就直接返回，所以放全站无副作用。
+    - <script defer src="/js/stats-page.js"></script>
+    - <script defer src="/js/search-page.js"></script>
 
     # ================= 左下角帧率计 =================
     # 实时显示页面帧率，用来判断动画（尤其是看板娘）流不流畅。
