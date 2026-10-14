@@ -30,12 +30,12 @@ menu:
   关于:
     关于本人: /about/ || anzhiyu-icon-paper-plane
     随便逛逛: javascript:toRandomPost() || anzhiyu-icon-shoe-prints1
-    # 这三个图标名是从主题图标集里挑的，共 135 个可用名字。
-    # ⚠️ 写错不会报错，只是那一项没有图标 —— 很难发现，所以加新项时务必核对：
-    #    curl -s https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css | grep -o 'anzhiyu-icon-[a-z0-9-]*' | sort -u
-    隐私政策: /privacy/ || anzhiyu-icon-file-lines
-    Cookies 政策: /cookies/ || anzhiyu-icon-circle-info
-    版权协议: /copyright/ || anzhiyu-icon-copyright
+    # 隐私协议 / 版权协议 / Cookies 政策 已经挪到页脚（见本文件 footerBar.linkList）。
+    # 这类法规链接按惯例放页脚，不占导航位置。
+    #
+    # 图标名要从主题图标集里选，写错不会报错、只是那一项没有图标 —— 很难发现。
+    # 可用名字共 135 个，加新项前先核对：
+    #   curl -s https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css | grep -o 'anzhiyu-icon-[a-z0-9-]*' | sort -u
 
 # nav相关配置
 nav:
@@ -591,18 +591,23 @@ footer:
       enable: false
       link: /copyright
     linkList:
-      # 作者要求删掉页脚的「安知鱼主题」链接。
+      # 页脚右下角这一排链接。
       #
-      # ⚠️ 这里不能写 []。实测 hexo-util 的 deepMerge：
-      #      deepMerge(主题默认, { linkList: [] })          → 主题默认那一项还在
-      #      deepMerge(主题默认, { linkList: [{text:""}] }) → 覆盖成功
-      #   数组是按**下标**合并的，空数组不会清空目标。
-      #   写成 [] 的结果就是页脚照旧显示「©2026 By 知识混子 主题」。
+      # 这里原本是主题作者的「安知鱼主题」推广链接，作者要求删掉后
+      # 一度是一项空文本（渲染成不可见的锚点）。
+      # 现在换成三个法规页面，从导航的「关于」分组挪过来 ——
+      # 这类链接按惯例放页脚，不占导航。
       #
-      # 所以这里给一项空文本，让那个位置渲染成一个不可见的锚点。
-      # 想换成有意义的链接（比如备案号），改下面两项即可。
-      - link: /
-        text: ''
+      # ⚠️ 数组是按**下标**与主题默认值合并的，实测 hexo-util 的 deepMerge：
+      #      deepMerge(主题默认, { linkList: [] })   → 主题默认那一项还在
+      #      deepMerge(主题默认, { linkList: [三项] }) → 完整覆盖
+      #   主题默认只有 1 项，所以这里给几项都安全，不会漏出旧内容。
+      - link: /privacy/
+        text: 隐私协议
+      - link: /copyright/
+        text: 版权协议
+      - link: /cookies/
+        text: Cookies 政策
     subTitle:
       enable: false
       # Typewriter Effect (打字效果)
