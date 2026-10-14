@@ -52,3 +52,43 @@
       address: 山里
       image:
         - /img/photos/album-06-snow-path.jpg
+
+    # ---------- 下面 7 张来自 Peapix 的 Windows Spotlight 接口 ----------
+    # address 填的是照片的**真实拍摄地**（接口的 title 里就写着），不是编的。
+    # content 是根据画面写的。
+    # ⚠️ date 是「收录日期」，不是拍摄日期 —— 这一册本来就是收集来的照片，不是自己拍的。
+    - content: 木屋与湖面各占一半
+      date: 2026-05-28 20:10:00
+      address: 意大利 多洛米蒂
+      image:
+        - /img/photos/album-07-spotlight.jpg
+    - content: 渡轮划开落日的水面
+      date: 2026-05-09 18:40:00
+      address: 美国 普吉特湾
+      image:
+        - /img/photos/album-08-spotlight.jpg
+    - content: 冰川河在沙洲上分了叉
+      date: 2026-04-21 11:25:00
+      address: 冰岛
+      image:
+        - /img/photos/album-09-spotlight.jpg
+    - content: 峡谷里的石柱排成管风琴
+      date: 2026-04-02 15:50:00
+      address: 亚美尼亚 加尼峡谷
+      image:
+        - /img/photos/album-10-spotlight.jpg
+    - content: 要塞的墙朝着海
+      date: 2026-03-15 09:30:00
+      address: 波多黎各 圣胡安
+      image:
+        - /img/photos/album-11-spotlight.jpg
+    - content: 晨雾还压在谷底没散
+      date: 2026-02-26 07:45:00
+      address: 德国 巴伐利亚
+      image:
+        - /img/photos/album-12-spotlight.jpg
+    - content: 绿谷里的村子刚醒
+      date: 2026-02-08 08:20:00
+      address: 法国 西比利牛斯
+      image:
+        - /img/photos/album-13-spotlight.jpg

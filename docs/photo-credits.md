@@ -127,3 +127,31 @@ powershell -ExecutionPolicy Bypass -File tools/fetch-covers.ps1 -Count 20 -Start
 
 - 页面中间那块「Hello there!」大色块**不是图片**，是主题 CSS 画的三个圆加文字
 - 关于页底部那个动漫少女插画**不是页面配图**，是右下角的 Live2D 看板娘
+
+---
+
+## 相册新增的 7 张（Windows Spotlight）
+
+2026-10-14 从 Peapix 的 Spotlight 接口取的，补进「收藏的照片」相册：
+
+| 文件 | 拍摄地 | 说明 |
+| --- | --- | --- |
+| `album-07-spotlight.jpg` | 意大利 多洛米蒂 | 湖畔木屋 |
+| `album-08-spotlight.jpg` | 美国 普吉特湾 | 日落渡轮 |
+| `album-09-spotlight.jpg` | 冰岛 | 冰川河 |
+| `album-10-spotlight.jpg` | 亚美尼亚 加尼峡谷 | 石柱 |
+| `album-11-spotlight.jpg` | 波多黎各 圣胡安 | 要塞 |
+| `album-12-spotlight.jpg` | 德国 巴伐利亚 | 晨雾山谷 |
+| `album-13-spotlight.jpg` | 法国 西比利牛斯 | 绿谷村庄 |
+
+原图 1920 下载后居中裁成 800x600，和相册里原有 6 张规格一致。7 张合计约 747 KB。
+
+**和封面那 7 张不重复。** 封面用的是 Bing 接口（`cover-06` ~ `cover-12`），
+这里是 Spotlight 接口，两边是两批不同的图。
+
+⚠️ **授权问题和封面一样**：Peapix 页面写着图片「for wallpaper use only」，
+而这批图多来自 Getty、iStock 等图库。用作博客配图属于超出「壁纸用途」，
+是灰色地带。记录在此，便于日后判断。
+
+另外：相册里每一项的 `date` 是**收录日期**，不是拍摄日期。
+这一册本来就是收集来的照片，不是博主自己拍的 —— 这一点在 `album.yml` 的注释里也写了。
