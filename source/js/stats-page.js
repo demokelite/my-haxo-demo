@@ -6,11 +6,33 @@
  *
  * 图表全部用 CSS 画（条形图就是一个 div 的宽度），不引图表库：
  * 为了一个统计页拉几百 KB 的 ECharts 不划算。
+ *
+ * ⚠️ 容器是**脚本自己建的**，markdown 里不写 HTML。
+ *    这一页和 /search/ 一样归 Pages CMS 管，富文本编辑器会把原文里的
+ *    <div> 整块剥掉。/search/ 已经因此丢过一次搜索框，这里提前改成
+ *    脚本自建，免得哪天编辑正文时统计表格跟着消失。
  */
 (function () {
   'use strict';
 
   var root = null;
+
+  /** 当前是不是统计页。PJAX 切页面后要重新判断 */
+  function onStatsPage() {
+    var p = location.pathname.replace(/index\.html$/, '');
+    return /\/stats\/?$/.test(p);
+  }
+
+  /** 建容器，插在正文最前面 */
+  function buildUI() {
+    var host = document.getElementById('article-container') || document.querySelector('.post-content');
+    if (!host) return null;
+    var box = document.createElement('div');
+    box.id = 'stats-page';
+    box.innerHTML = '<p class="sp-loading">正在统计…</p>';
+    host.insertBefore(box, host.firstChild);
+    return box;
+  }
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -86,8 +108,13 @@
   }
 
   function run() {
+    if (!onStatsPage()) return;
+
     root = document.getElementById('stats-page');
-    if (!root) return;
+    if (!root) {
+      root = buildUI();
+      if (!root) return;                     // 容器还没渲染出来，等下一次 pjax:complete
+    }
     if (root.dataset.done === '1') return;   // PJAX 回来时不要重复渲染
     root.dataset.done = '1';
 

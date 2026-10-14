@@ -4,6 +4,13 @@
  * 读主题已经生成好的 /search.json（hexo-generator-searchdb 产出的），
  * 所以不需要额外的索引，也不会出现「弹窗搜得到、整页搜不到」的不一致。
  *
+ * ⚠️ 界面是**脚本自己建出来的**，markdown 里不写任何 HTML。
+ *    原因踩过一次：这一页在 Pages CMS 里管着，而富文本编辑器会把
+ *    原文里的 <div>/<input> 整块剥掉 —— 结果搜索框直接消失，
+ *    页面上只剩一句说明文字，看起来像根本没做这个功能。
+ *    所以现在只靠 location.pathname 判断「我在搜索页」，
+ *    再把界面插进主题的 #article-container，跟 CMS 怎么改正文都无关。
+ *
  * 匹配规则很朴素：标题命中权重高于正文，全部转小写后做子串匹配。
  * 中文没有词边界，做分词反而容易漏，子串匹配更稳。
  */
@@ -20,11 +27,16 @@
     });
   }
 
+  /** 当前是不是搜索页。PJAX 切页面后也要重新判断，所以每次都算一遍 */
+  function onSearchPage() {
+    var p = location.pathname.replace(/index\.html$/, '');
+    return /\/search\/?$/.test(p);
+  }
+
   /** 把命中的关键词包成 <mark>，输入已经转义过 */
   function highlight(text, kw) {
     if (!kw) return esc(text);
     var safe = esc(text);
-    // 关键词本身也要转义，再用它做不区分大小写的替换
     var k = esc(kw).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     try {
       return safe.replace(new RegExp('(' + k + ')', 'gi'), '<mark>$1</mark>');
@@ -65,13 +77,11 @@
       var inMeta = (tags + ' ' + cats).toLowerCase().indexOf(lower) >= 0;
 
       if (inTitle || inContent || inMeta) {
-        // 标题命中排前面，其次正文，最后只看标签分类的
         hits.push({ item: item, score: inTitle ? 3 : (inContent ? 2 : 1) });
       }
     });
 
     hits.sort(function (a, b) { return b.score - a.score; });
-
     countEl.textContent = hits.length ? hits.length + ' 条结果' : '';
 
     if (!hits.length) {
@@ -92,14 +102,39 @@
     }).join('');
   }
 
+  /** 建界面。markdown 里没有 HTML，全靠这里生成 */
+  function buildUI() {
+    var host = document.getElementById('article-container') || document.querySelector('.post-content');
+    if (!host) return null;
+
+    var box = document.createElement('div');
+    box.id = 'search-page';
+    box.innerHTML =
+      '<div class="sr-box">' +
+      '  <input id="sr-input" type="search" autocomplete="off" aria-label="搜索文章"' +
+      '         placeholder="输入关键词，比如「Hexo」「部署」「小饭桌」">' +
+      '  <span id="sr-count"></span>' +
+      '</div>' +
+      '<div id="sr-results"></div>';
+
+    // 插在正文最前面。markdown 里那几句说明文字留在下面当补充说明。
+    host.insertBefore(box, host.firstChild);
+    return box;
+  }
+
   function run() {
-    var page = document.getElementById('search-page');
-    if (!page) return;
+    if (!onSearchPage()) return;
+
+    var box = document.getElementById('search-page');
+    if (!box) {
+      box = buildUI();
+      if (!box) return;          // 容器还没渲染出来，等下一次 pjax:complete
+    }
 
     input = document.getElementById('sr-input');
     resultEl = document.getElementById('sr-results');
     countEl = document.getElementById('sr-count');
-    if (!input || input.dataset.bound === '1') {
+    if (!input || !resultEl || input.dataset.bound === '1') {
       if (input && data) search(input.value);
       return;
     }
@@ -114,7 +149,7 @@
 
     // 从地址栏带 ?q=xxx 进来也能直接搜
     var q = new URLSearchParams(location.search).get('q');
-    if (q) { input.value = q; }
+    if (q) input.value = q;
 
     if (data) { search(input.value); return; }
     if (loading) return;
