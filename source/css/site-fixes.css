@@ -15,3 +15,35 @@
   object-fit: contain;
   background: var(--anzhiyu-secondbg, #f7f7f9);
 }
+
+/* ---------- 关于页：图片卡底部文字的可读性 ----------
+ * 「关注偏好」那张卡的文字（like_bottom，内容为「手机、电脑软硬件」）
+ * 压在背景照片的最亮处上。实测：文字框背景平均亮度 187.9/255，
+ * 白字对比度只有约 1.9:1，明显比同页其它卡弱
+ * （所在地卡同一位置 26.3，约 17:1）。
+ *
+ * 治法是在卡片底部叠一层自下而上的暗色渐变，不动照片本身。
+ * 只加在这一张卡上 —— 其它卡实测对比度都够，全站铺开会把本来不暗的卡也压暗。
+ *
+ * 数值经过挑选：0.62 的纯黑在中段淡出，既能把亮部压到能读，
+ * 又不会在卡片下半截形成明显的黑色块。 */
+.author-content-item.like-technology {
+  position: relative;
+}
+
+.author-content-item.like-technology::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;          /* 只贴底边，左右拉满 */
+  height: 62%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0));
+  border-radius: inherit;
+  pointer-events: none;       /* 别挡住卡片本身的点击 */
+  z-index: 1;
+}
+
+/* 渐变层要垫在文字下面，否则文字会被压住 */
+.author-content-item.like-technology > * {
+  position: relative;
+  z-index: 2;
+}
