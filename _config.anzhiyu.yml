@@ -194,14 +194,32 @@ cover:
   position: left
   # When cover is not set, the default cover is displayed (当没有设置cover时，默认的封面显示)
   # 未设置 cover 的文章会从这里随机取一张。
-  # 四张都是 Unsplash 授权的实拍照片（经 picsum 分发），本地存了一份，
-  # 不依赖外部图床。挑选标准是「暗部足够 + 画面不花」，因为白色标题要压在图上。
+  #
+  # 全部本地存了一份，不依赖外部图床 —— 外部链接哪天失效，封面就集体挂掉。
+  # 挑选标准是「暗部足够 + 画面不花」，因为白色标题要压在图上。
   # 来源与作者见 docs/photo-credits.md
+  #
+  # ⚠️ 缩进和顺序不要随便动：
+  #    本文件与主题配置深合并，**数组按下标合并**，
+  #    所以这个列表只能整体替换，没法比主题默认值短。
+  #
+  # 01~04：Unsplash 授权（经 picsum 分发）
+  # 05：自己裁的
+  # 06~12：必应每日壁纸，用 tools/fetch-covers.ps1 从 Peapix 接口拉的
+  #        想加更多就改那个脚本的 -Count 再跑一次，它会自动接着编号
   default_cover:
     - /img/photos/cover-01-mist-mountain.jpg
     - /img/photos/cover-02-mist-path.jpg
     - /img/photos/cover-03-sea-rocks.jpg
     - /img/photos/cover-04-river-dusk.jpg
+    - /img/photos/cover-05-mascaloona.jpg
+    - /img/photos/cover-06-bing-20261014.jpg
+    - /img/photos/cover-07-bing-20261013.jpg
+    - /img/photos/cover-08-bing-20261012.jpg
+    - /img/photos/cover-09-bing-20261011.jpg
+    - /img/photos/cover-10-bing-20261010.jpg
+    - /img/photos/cover-11-bing-20261009.jpg
+    - /img/photos/cover-12-bing-20261008.jpg
 
 # Replace Broken Images (替换无法显示的图片)
 error_img:

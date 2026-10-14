@@ -50,3 +50,52 @@ Unsplash License 允许免费使用、修改、分发，包括商业用途，且
 原图保留着给 404 页当全屏背景（那里需要高分辨率），
 文章封面改用小图 —— 封面只显示约 500x250，用 1920x1080 是浪费带宽。
 一来一回省下 279 KB。
+
+---
+
+## 必应每日壁纸（cover-06 ~ cover-12）
+
+这 7 张不是 Unsplash 来的，是用 [`tools/fetch-covers.ps1`](../tools/fetch-covers.ps1)
+从 [Peapix 接口](https://peapix.com/api) 拉的必应每日壁纸，下 1920 原图后居中裁成 800x500。
+
+| 文件 | 画面 | 版权 |
+| --- | --- | --- |
+| `cover-06-bing-20261014.jpg` | 侏罗纪时期的菊石化石 | © J Nemchinova/Getty Image |
+| `cover-07-bing-20261013.jpg` | 普利特维采湖群国家公园，克罗地亚 | © Jan Wlodarczyk/Alam |
+| `cover-08-bing-20261012.jpg` | 曼布尔斯码头，斯旺西，威尔士 | © Helen Hotson/Shutterstock |
+| `cover-09-bing-20261011.jpg` | 格莱德溪磨坊，巴布科克州立公园，美国 | © dszc/Getty Image |
+| `cover-10-bing-20261010.jpg` | 蒙特雷湾上空的双冠鸬鹚，加州，美国 | © Hiroya Minakuchi/Minden Picture |
+| `cover-11-bing-20261009.jpg` | 桑吉奈尔群岛景观，科西嘉岛，法国 | © Francesco Riccardo Iacomino/Getty Image |
+| `cover-12-bing-20261008.jpg` | 印度洋马约特岛，一只呈防御姿态的章鱼 | © Gabriel Barathieu/Minden Picture |
+
+### ⚠️ 这 7 张的授权和上面那批不一样
+
+**Peapix 页面底部写着：**
+
+> The images are provided for **wallpaper use only**.
+
+必应壁纸本身多来自 Getty、Shutterstock 这类图库。**用作博客封面属于超出「壁纸用途」的范畴，是灰色地带** —— 和 Unsplash 那种「明确允许免费使用」不是一回事。
+
+这一点在选择时应该知情。如果在意，有两个办法：
+
+1. **换回 Unsplash** —— 授权明确，只是可选图少一些
+2. **只留着看，不发布** —— 把这几张从 `default_cover` 里去掉即可
+
+作者信息已经记在上面，万一要署名可以直接用。
+
+### 想再加几张
+
+改 [`tools/fetch-covers.ps1`](../tools/fetch-covers.ps1) 的参数再跑一次：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/fetch-covers.ps1 -Count 20 -StartIndex 13
+```
+
+脚本会**接着现有编号往下排**，不会覆盖已有的。跑完把输出里的路径复制进
+`_config.anzhiyu.yml` 的 `default_cover` 就行（脚本会把该贴的内容打印出来）。
+
+地区可以用 `-Country` 换（`cn` / `us` / `jp` / `de` / `fr` / `gb` 等），不同地区当天的图不一样。
+
+> **踩过的坑**：`.ps1` 文件必须存成**带 BOM 的 UTF-8**。
+> Windows PowerShell 5.1 在无 BOM 时按 GBK 读，中文全变乱码、脚本直接语法错误。
+> 用 `pwsh` 7 没这个问题，但脚本要给别人用就不能假设对方是 7。
