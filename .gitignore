@@ -14,6 +14,11 @@ _multiconfig.yml
 *.env
 
 # 本地启动脚本 —— 只在本机用，不上传
-# 作者要求：启动 DSH Web 的那个 cmd 文件不要传到 GitHub。
-# 这里用文件名精确匹配，不用 *.cmd 通配 —— 万一以后有需要提交的 cmd，不会被误伤。
-start-dsh-web.cmd
+# 作者要求：启动 DSH Web 的脚本不要传到 GitHub。
+#
+# 用 start-dsh* 前缀 + 指定扩展名，而不是直接写 *.bat / *.cmd：
+#   - 直接写 *.bat 太宽，以后真有需要提交的批处理会被一起吞掉
+#   - 只写死一个文件名又太窄，换个命名（.bat / .cmd、加不加后缀）就漏了
+# 这样两种扩展名、任意后缀都能覆盖到，同时不会误伤别的脚本。
+start-dsh*.bat
+start-dsh*.cmd
