@@ -12,3 +12,8 @@ _multiconfig.yml
 .env
 .env.*
 *.env
+
+# 本地启动脚本 —— 只在本机用，不上传
+# 作者要求：启动 DSH Web 的那个 cmd 文件不要传到 GitHub。
+# 这里用文件名精确匹配，不用 *.cmd 通配 —— 万一以后有需要提交的 cmd，不会被误伤。
+start-dsh-web.cmd
