@@ -43,29 +43,34 @@
     //
     // 传多个模型时，页面上会自动出现「切换模型」按钮，可以直接点击切换。
     //
-    // ⚠️ 各模型的下载量差别很大（含贴图，实测）：
-    //     z16       0.23 MB   ✓ 最轻
-    //     cat-white 0.55 MB   ✓
-    //     Mark      0.68 MB   ✓  ← 已按作者要求移除，见下
-    //     koharu    0.71 MB   ✓
-    //     kobayaxi  1.17 MB   △
-    //     rem       3.89 MB   ★ 切过去要等
-    //     Mao       4.12 MB   ★
-    //     Hiyori    4.70 MB   ★
-    //     shizuku   5.53 MB   ★ 最重
-    //   1 Mbps 下切到 shizuku 要等 44 秒，观感上和「加载不出来」很像。
-    //   想让切换快一点，就把轻的放到前面 —— 第一个是默认加载的。
+    // ⚠️⚠️ 只保留 **Cubism 2 格式（.model.json）** 的模型，原因见下。
+    //
+    // 实测定论（2026-10-14）：**Cubism 3/4 格式（.model3.json）的模型在这个组件里全部有问题。**
+    //   Haru    model3   ✗ 根本不加载（MOC3 v1 被 Cubism 5 的一致性检查拒绝）
+    //   Mark    model3   ✗ 切换就卡
+    //   Hiyori  model3   ✗ 切换就卡
+    //   Mao     model3   ✗ 未单独验证，但同属一类，已一并移除
+    //   ────────────────────────────
+    //   shizuku / koharu / z16 / rem / kobayaxi / cat-white（都是 Cubism 2）始终正常
+    //
+    // 为什么是两类：l2d-widget 里有两套完全独立的渲染实现 ——
+    //   Cubism 2 走 l2d2Model（组件自带），Cubism 3/4 走 l2d6Model（Cubism 官方 SDK）
+    // 出问题的全部集中在后者。所以这不是网络或体积问题，是那套实现本身的问题。
+    //
+    // 曾经怀疑过体积：Mark 只有 0.68 MB（全列表第二轻）却照样卡，
+    // 而 shizuku 有 5.53 MB（最重）反而没事 —— 体积这条线索是错的。
+    //
+    // 想再加模型，**务必先确认它是 Cubism 2 格式**：
+    //   curl -sL <moc 地址> | head -c 5 | xxd | head -1
+    //   魔数是 "moc\0"  → Cubism 2，可以用 ✓
+    //   魔数是 "MOC3"   → Cubism 3/4，别加 ✗
+    //
+    // 各模型下载量（含贴图，仅供参考，与卡顿无关）：
+    //     z16  0.23 MB ｜ cat-white 0.55 MB ｜ koharu 0.71 MB
+    //     kobayaxi 1.17 MB ｜ rem 3.89 MB ｜ shizuku 5.53 MB
     models: [
       { path: 'https://model.hacxy.cn/shizuku/shizuku.model.json' },   // 雫，最经典的 Live2D 模型
       { path: 'https://model.hacxy.cn/koharu/model.json' },            // 小春
-      // 第 3 个原来依次是 Haru、Mark，两个作者都反馈有问题，已移除：
-      //   Haru — MOC3 v1，被 Cubism 5 的一致性检查拒绝，根本加载不出来
-      //   Mark — MOC3 v3 版本没问题、体积也只有 0.68 MB（是全列表第二轻的），
-      //          但作者反馈切到它就卡。原因没查明，可能与模型本身有关。
-      //   注意：删掉之后新的第 3 个是 Hiyori，4.70 MB，**比 Mark 重得多**，
-      //        如果卡顿是体积导致的，换到 Hiyori 大概率还会遇到。
-      { path: 'https://model.hacxy.cn/Hiyori/Hiyori.model3.json' },    // 日和
-      { path: 'https://model.hacxy.cn/Mao/Mao.model3.json' },          // Mao
       { path: 'https://model.hacxy.cn/z16/z16.model.json' },           // Z16
       { path: 'https://model.hacxy.cn/rem/model.json' },               // 蕾姆
       { path: 'https://model.hacxy.cn/kobayaxi/model.json' },          // 康娜
