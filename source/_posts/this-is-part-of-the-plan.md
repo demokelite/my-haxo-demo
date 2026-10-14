@@ -1,23 +1,15 @@
 ---
 title: 这也是计划的一部分
-date: 2026-09-22 22:46:17
+date: 2026-10-12T21:04
 categories:
   - 随笔
 tags:
   - 解离
   - 决定论
   - 随笔
-keywords:
-  - 随笔
-  - 解离
-  - 决定论
-  - 邵雍占瓶
-  - 三体
-  - 失业
-cover: /img/photos/cover-05-mascaloona.jpg
 description: 一道笔试题，一次解离，和一个守着花瓶的邵雍。
+cover: /img/photos/cover-05-mascaloona.jpg
 ---
-
 失业大半年了，找了辅导小学生的兼职。时长不长，当然，薪资也少得可怜。
 
 看着这些小学生，我想起了 10 年前的我：
