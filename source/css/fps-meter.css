@@ -1,0 +1,105 @@
+/*!
+ * 帧率计样式
+ *
+ * 放左下角。右下角是看板娘，避开。
+ * 配色走主题变量，但数字本身用固定的 绿/黄/红 三档 ——
+ * 这三档是判断流畅度的语义色，不该跟着主题色变。
+ */
+
+#fps-meter {
+  position: fixed;
+  left: 14px;
+  bottom: 14px;
+  z-index: 90;                 /* 低于看板娘(9999)和右下角按钮，不与它们争层级 */
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--anzhiyu-card-bg, rgba(255, 255, 255, 0.92));
+  color: var(--anzhiyu-fontcolor, #333);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s ease, transform 0.2s ease, padding 0.2s ease;
+}
+
+#fps-meter:hover {
+  transform: translateY(-1px);
+}
+
+#fps-meter .fm-num {
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 22px;
+  text-align: right;
+  transition: color 0.2s ease;
+}
+
+#fps-meter .fm-unit {
+  font-size: 10px;
+  opacity: 0.55;
+  letter-spacing: 0.4px;
+}
+
+#fps-meter .fm-detail {
+  display: none;
+  margin-left: 6px;
+  padding-left: 8px;
+  border-left: 1px solid var(--anzhiyu-gray-op, rgba(128, 128, 128, 0.24));
+  font-size: 11px;
+  opacity: 0.7;
+  gap: 8px;
+}
+
+#fps-meter .fm-detail span {
+  white-space: nowrap;
+}
+
+#fps-meter .fm-detail b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* 展开态：显示平均和最低 */
+#fps-meter:not(.is-min) .fm-detail {
+  display: flex;
+}
+
+/* 收起态：只留一个小点，几乎不占地方但还能一眼看到大概 */
+#fps-meter.is-min {
+  padding: 4px 7px;
+  opacity: 0.5;
+}
+
+#fps-meter.is-min .fm-unit,
+#fps-meter.is-min .fm-detail {
+  display: none;
+}
+
+#fps-meter.is-min:hover {
+  opacity: 1;
+}
+
+/* 窄屏缩小一点，别挡内容 */
+@media screen and (max-width: 768px) {
+  #fps-meter {
+    left: 8px;
+    bottom: 8px;
+    padding: 4px 8px;
+  }
+  #fps-meter .fm-num {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #fps-meter {
+    transition: none;
+  }
+}
