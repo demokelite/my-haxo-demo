@@ -54,6 +54,15 @@ relative_link: false
 # 日期在未来的文章也照常生成，日期只作为显示值。
 # （曾用过 future: false + GitHub Actions 定时重建做定时发布，2026-10-13 因
 #   GitHub 丢弃了整点的 cron 而漏发，作者决定不折腾了，已整体移除。）
+#
+# ⚠️ 由此带来的一条约定：**发表草稿时要把 date 改成当天。**
+#    草稿里常写着未来日期（作者写草稿时随手挑的），而 future: true 不会让它们
+#    等到那天才发 —— 一移进 _posts/ 就立刻上线，但显示成未来日期，
+#    还会排在文章列表最前面。
+#    这一步已经做成脚本，别再手动改：
+#        powershell -ExecutionPolicy Bypass -File tools/publish.ps1            # 列出草稿
+#        powershell -ExecutionPolicy Bypass -File tools/publish.ps1 -Name xxx  # 发表并改日期
+#    （2026-10-14 与作者确认：保持现状，靠脚本在发表时改日期，不恢复定时发布。）
 future: true
 syntax_highlighter: highlight.js
 highlight:
