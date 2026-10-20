@@ -1,12 +1,12 @@
 ---
 title: 人其实是一个预测大模型
-date: 2026-10-20T13:40
+date: 2026-10-20 09:00:00
 tags:
   - 认知
   - 大脑
   - 随笔
 description: 大脑不是先看见再理解，而是先猜、再用眼睛去核对。这个说法比它听起来更靠谱，也比它听起来更有问题。
-cover: /img/photos/cover-01-mist-mountain.jpg
+cover: /img/photos/cover-10-bing-20261010.jpg
 ---
 有句话这两年很流行：**人是被训练出来的大模型。**
 

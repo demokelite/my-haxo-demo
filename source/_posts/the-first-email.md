@@ -1,12 +1,12 @@
 ---
 title: 第一封电子邮件写了什么，发信人自己忘了
-date: 2026-10-17T10:04
+date: 2026-10-20 16:00:00
 tags:
   - 邮件
   - 互联网
   - 历史
 description: 1971 年一个人顺手做出来的副业项目，成了此后五十亿人离不开的东西。
-cover: /img/photos/cover-01-mist-mountain.jpg
+cover: /img/photos/cover-06-bing-20261014.jpg
 ---
 每天早上打开电脑，第一件事多半是刷邮箱。垃圾邮件、周报、验证码、各种催命符塞满收件箱。
 

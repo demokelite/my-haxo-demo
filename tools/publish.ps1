@@ -20,7 +20,11 @@
 
 param(
   [string]$Name,
-  [switch]$KeepDate
+  [switch]$KeepDate,
+  # 指定发布时间，形如 "2026-10-20 16:00:00"；不给就用当前时间。
+  # 注意：_config.yml 里是 future: true，所以**未来时间也会立刻上线**，
+  # 只是显示成那个时间。想真的等到那个点，需要另外的定时发布机制（已移除）。
+  [string]$Date
 )
 
 $ErrorActionPreference = 'Stop'
@@ -99,7 +103,12 @@ if (Test-Path $dst) {
 $fm = Get-FrontMatter $src
 $oldDate = Get-Field $fm.Matter 'date'
 $title = Get-Field $fm.Matter 'title'
-$now = Get-Date
+if ($Date) {
+    try { $now = [datetime]::Parse($Date) }
+    catch { Write-Host "日期格式看不懂：$Date" -ForegroundColor Red; Write-Host '要写成 "2026-10-20 16:00:00" 这种。'; exit 1 }
+} else {
+    $now = Get-Date
+}
 $newDate = $now.ToString('yyyy-MM-dd HH:mm:ss')
 
 Write-Host ''
