@@ -1,6 +1,6 @@
 ---
 title: 人其实是一个预测大模型
-date: 2026-10-20 14:00:00
+date: 2026-10-20T13:40
 tags:
   - 认知
   - 大脑
@@ -150,4 +150,5 @@ cover: /img/photos/cover-01-mist-mountain.jpg
 
 > **参考**：Andy Clark, *Surfing Uncertainty: Prediction, Action, and the Embodied Mind*, Oxford University Press, 2016（[书评](https://www.cambridge.org/core/journals/the-british-journal-of-psychiatry/article/surfing-uncertainty-prediction-action-and-the-embodied-mind-by-andy-clark-oxford-university-press-2016-1999-hb-424-pp-isbn-9780190217013/701FA4FC007116B5D2F18D02F0AA7F30)）；Anil Seth, *Being You: A New Science of Consciousness*, 2021。
 >
-> 书里讲得比我这里严谨得多。文中所有具体论断的出处都在书里，**凡是我转述可能有偏差的地方，以书为准。**
+>
+
