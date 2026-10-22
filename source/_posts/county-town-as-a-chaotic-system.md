@@ -6,7 +6,7 @@ tags:
   - 混沌
   - 观察
 description: 它既显得高度可预测，又让人觉得完全说不准。而这两件事同时成立，可能正是混沌的指纹。
-cover: /img/photos/cover-07-bing-20261013.jpg
+cover: /img/photos/cover-14-picsum.jpg
 ---
 这个想法一开始只是个玩笑。
 

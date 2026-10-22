@@ -155,3 +155,13 @@ powershell -ExecutionPolicy Bypass -File tools/fetch-covers.ps1 -Count 20 -Start
 
 另外：相册里每一项的 `date` 是**收录日期**，不是拍摄日期。
 这一册本来就是收集来的照片，不是博主自己拍的 —— 这一点在 `album.yml` 的注释里也写了。
+
+## cover-14-picsum.jpg
+
+- **用途**：文章《县城是一个混沌系统——一个猜想》封面
+- **来源**：Picsum（https://picsum.photos/seed/county-chaos-b/800/500），图片来自 Unsplash
+- **授权**：Unsplash License —— 允许免费商用与修改，无需署名（署名仍受鼓励）
+- **获取日期**：2026-10-22
+- **原始尺寸**：800×500（下载即为此尺寸，未二次裁剪）
+
+> 比必应壁纸（Peapix）干净：后者页面声明 "for wallpaper use only"，用作博客封面属灰色地带；Unsplash 授权明确允许。
